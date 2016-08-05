@@ -1,21 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>test</title>
+    <title>index</title>
 </head>
 <body>
-<h1>index.jsp</h1>
-<h2>selectAdmin</h2>
-<table>
-    <c:forEach items="${blogAdmins}" var="a">
-        <tr>
-            <td>${a.loginName}</td>
-            <td>${a.username}</td>
-            <td>${a.password}</td>
-            <td>${a.phone}</td>
-        </tr>
-    </c:forEach>
-</table>
+    <h1>index.jsp</h1>
+    <a href="/blog/blogAdmin/testAction">/WEB-INF/error/404.jsp</a>
+    <br/>
+    <a href="/blog/blogAdmin/testAction">/WEB-INF/error/500.jsp</a>
 </body>
 </html>

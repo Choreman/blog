@@ -28,4 +28,10 @@ public class BlogAdminController {
         return modelAndView;
     }
 
+    @RequestMapping("testAction")
+    public String testAction(){
+        return "error/404";
+//        return "error/500";
+    }
+
 }
