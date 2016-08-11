@@ -5,10 +5,13 @@ import com.doing.blog.model.Admin;
 import java.util.List;
 
 public interface AdminService {
+
     /**
-     * 查询所有用户
+     * 管理员登陆
+     * @param admin
      * @return
      * @throws Exception
      */
-    List<Admin> selectAdmin() throws Exception;
+    Admin login(Admin admin) throws Exception;
+
 }

@@ -93,4 +93,12 @@ public interface AdminMapper {
      * @mbggenerated Thu Aug 11 11:23:06 CST 2016
      */
     int updateByPrimaryKey(Admin record);
+
+
+    /**
+     * 管理员登陆
+     * @param admin
+     * @return
+     */
+    Admin login(Admin admin);
 }

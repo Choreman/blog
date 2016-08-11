@@ -300,4 +300,8 @@
       phone = #{phone,jdbcType=VARCHAR}
     where a_id = #{aId,jdbcType=VARCHAR}
   </update>
+
+  <select id="login" resultMap="BaseResultMap" parameterType="com.doing.blog.model.Admin">
+    SELECT a_id, login_name, username, password, create_date, phone FROM blog_admin WHERE login_name = #{loginName} AND password = #{password}
+  </select>
 </mapper>
