@@ -1,7 +1,7 @@
 package com.doing.blog.controller;
 
-import com.doing.blog.model.BlogAdmin;
-import com.doing.blog.service.BlogAdminService;
+import com.doing.blog.model.Admin;
+import com.doing.blog.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,17 +10,17 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping("/blogAdmin")
-public class BlogAdminController {
+@RequestMapping("/admin")
+public class AdminController {
 
     @Autowired
-    private BlogAdminService blogAdminService;
+    private AdminService adminService;
 
     @RequestMapping("/selectAdmin")
     public ModelAndView selectAdmin() throws Exception{
         ModelAndView modelAndView = new ModelAndView();
         //调用service方法得到管理员列表
-        List<BlogAdmin> blogAdmins = blogAdminService.selectAdmin();
+        List<Admin> blogAdmins = adminService.selectAdmin();
         //将得到的管理员列表内容添加到ModelAndView中
         modelAndView.addObject("blogAdmins", blogAdmins);
         //设置响应的视图页面

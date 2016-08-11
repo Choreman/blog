@@ -1,14 +1,14 @@
 package com.doing.blog.service;
 
-import com.doing.blog.model.BlogAdmin;
+import com.doing.blog.model.Admin;
 
 import java.util.List;
 
-public interface BlogAdminService {
+public interface AdminService {
     /**
      * 查询所有用户
      * @return
      * @throws Exception
      */
-    List<BlogAdmin> selectAdmin() throws Exception;
+    List<Admin> selectAdmin() throws Exception;
 }
