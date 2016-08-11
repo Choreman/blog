@@ -73,6 +73,19 @@
         </dependency>
         <!-- springframe end -->
 
+        <!--spring-json依赖-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.4.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.4.2</version>
+        </dependency>
+        <!--spring-json依赖 end-->
+
         <!-- AOP 的驱动包 start-->
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -161,6 +174,22 @@
             <version>1.2.17</version>
         </dependency>
         <!-- log4j end-->
+
+        <!-- slf4j start-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.7</version>
+        </dependency>
+        <!-- slf4j end-->
+
+        <!-- apache.commons start-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.3.2</version>
+        </dependency>
+        <!-- apache.commons end-->
 
     </dependencies>
 

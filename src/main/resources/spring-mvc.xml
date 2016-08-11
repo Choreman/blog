@@ -18,7 +18,7 @@
         <!-- 多视图解析器，需要设置viewName和order -->
         <!-- 注意：order的值越大，解析器执行的顺序越晚。jsp的解析器的order必须最高 -->
         <property name="order" value="1"/>
-        <property name="prefix" value="/WEB-INF/"/>
+        <property name="prefix" value="/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 

@@ -9,29 +9,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+/**
+ * 管理员控制器，继承基础的控制器
+ */
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/admin/admin")
+public class AdminController extends BaseController<Admin, Long> {
 
     @Autowired
     private AdminService adminService;
 
-    @RequestMapping("/selectAdmin")
-    public ModelAndView selectAdmin() throws Exception{
-        ModelAndView modelAndView = new ModelAndView();
-        //调用service方法得到管理员列表
-        List<Admin> blogAdmins = adminService.selectAdmin();
-        //将得到的管理员列表内容添加到ModelAndView中
-        modelAndView.addObject("blogAdmins", blogAdmins);
-        //设置响应的视图页面
-        modelAndView.setViewName("index");
-        return modelAndView;
-    }
 
-    @RequestMapping("testAction")
-    public String testAction(){
-        return "error/404";
-//        return "error/500";
-    }
 
 }
