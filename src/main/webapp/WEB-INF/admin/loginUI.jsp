@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -18,7 +19,19 @@
     <!-- Mainly scripts -->
     <script src="${pageContext.request.contextPath}/resources/admin/js/jquery-2.1.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/admin/js/bootstrap.min.js?v=3.4.0"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
+    <!-- Custom and plugin javascript -->
+    <script src="${pageContext.request.contextPath}/resources/admin/js/hplus.js?v=2.2.0"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/pace/pace.min.js"></script>
+
+    <!-- Jquery Validate -->
+    <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/validate/messages_zh.min.js"></script>
+
+    <!-- layer弹窗插件 -->
+    <script src="${pageContext.request.contextPath}/resources/lib/layer/layer.js"></script>
 </head>
 <body class="gray-bg">
     <div class="middle-box text-center loginscreen  animated fadeInDown">
@@ -26,17 +39,46 @@
             <div>
                 <h4 class="logo-name">登陆</h4>
             </div>
-            <form action="${pageContext.request.contextPath}/admin/admin/login" method="post" class="m-t" role="form">
+            <form action="${pageContext.request.contextPath}/admin/admin/login" id="admin-form" method="post" class="m-t" role="form">
                 <div class="form-group">
-                    <input type="text" name="loginName" class="form-control" placeholder="用户名" required="">
+                    <input type="text" name="loginName" class="form-control" placeholder="用户名" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" class="form-control" placeholder="密码" required="">
+                    <input type="password" name="password" class="form-control" placeholder="密码" required>
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
                 <p class="text-muted text-center"> <a href="login.html#"><small>忘记密码了？</small></a> | <a href="register.html">注册一个新账号</a></p>
             </form>
         </div>
     </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#admin-form").validate({
+                rules: {
+                    loginName: {
+                        required:true,
+                        number:true,
+                    },
+                    password: "required",
+                },
+                messages: {
+                    loginName: {
+                        required: "请输入你的用户名",
+                    },
+                    password: "请输入您的密码",
+                }
+            });
+        });
+    </script>
 </body>
+    <c:if test="${result != null}">
+        <script>
+            var success = ${result.success};
+            var msg = '${result.msg}';
+            if(success == false){
+                layer.msg("提示：" + msg);
+            }
+        </script>
+    </c:if>
 </html>

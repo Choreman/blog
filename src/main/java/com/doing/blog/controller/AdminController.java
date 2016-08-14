@@ -23,6 +23,11 @@ public class AdminController extends BaseController<Admin, Long> {
     @Autowired
     private AdminService adminService;
 
+    @RequestMapping("/list")
+    public String list(){
+        return TEMPLATE_PATH+"list";
+    }
+
     /**
      * 访问管理员登陆页面
      * @return
@@ -45,7 +50,7 @@ public class AdminController extends BaseController<Admin, Long> {
             Admin loginAdmin = adminService.login(admin);
             if(loginAdmin != null){     //如果输入的用户名和密码存在
                 session.setAttribute("loginAdmin", loginAdmin);     //把登陆的用户存进session
-                return "redirect:/admin/admin/list";    //通过访问controller的list方法进入后台管理页
+                return REDIRECT_URL + "admin/list";    //通过访问controller的list方法进入后台管理页
             }else{      //如果输入的用户名和密码不存在
                 redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "用户名或者密码错误"));
                 return REDIRECT_URL + "admin/loginUI";        //返回到登陆页重新登陆
