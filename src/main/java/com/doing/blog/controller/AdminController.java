@@ -62,4 +62,15 @@ public class AdminController extends BaseController<Admin, Long> {
         }
     }
 
+    /**
+     * 管理员退出
+     * @param session
+     * @return
+     */
+    @RequestMapping(value="/logout", method=RequestMethod.GET)
+    public String logout(HttpSession session){
+        session.removeAttribute("loginAdmin");
+        return REDIRECT_URL + "admin/loginUI";
+    }
+
 }

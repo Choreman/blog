@@ -12,6 +12,7 @@
         <java.version>1.7</java.version>
         <!--  依赖版本  -->
         <spring.version>4.0.2.RELEASE</spring.version>
+        <hibernate.validator.version>5.1.1.Final</hibernate.validator.version>
     </properties>
 
     <dependencies>
@@ -101,6 +102,22 @@
             <version>0.9.5.1</version>
         </dependency>
         <!--c3p0 end-->
+
+        <!-- hibernate-validator-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
+        </dependency>
+        <!-- hibernate-validator end-->
+
+        <!-- javax的validation-api start-->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
+        <!-- javax的validation-api end-->
 
         <!--servlet/jsp api start-->
         <dependency>
