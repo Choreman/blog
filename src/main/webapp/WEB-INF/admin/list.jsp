@@ -9,7 +9,8 @@
     <title>后台管理首页</title>
 
     <link href="${pageContext.request.contextPath}/resources/admin/css/bootstrap.min.css?v=3.4.0" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/admin/font-awesome/css/font-awesome.css?v=4.3.0" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/admin/font-awesome/css/font-awesome.css?v=4.3.0"
+          rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/admin/css/animate.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/admin/css/style.css?v=2.2.0" rel="stylesheet">
 
@@ -21,10 +22,11 @@
         <div class="row border-bottom white-bg">
             <nav class="navbar navbar-static-top" role="navigation">
                 <div class="navbar-header">
-                    <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                    <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse"
+                            class="navbar-toggle collapsed" type="button">
                         <i class="fa fa-reorder"></i>
                     </button>
-                    <a href="" class="navbar-brand">后台管理首页</a>
+                    <a href="${pageContext.request.contextPath}/admin/admin/list" class="navbar-brand">后台管理首页</a>
                 </div>
                 <div class="navbar-collapse collapse" id="navbar">
                     <ul class="nav navbar-nav">
@@ -32,7 +34,8 @@
                             <a aria-expanded="false" role="button" href="">返回前台首页</a>
                         </li>
                         <li class="dropdown">
-                            <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 用户管理 <span class="caret"></span></a>
+                            <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
+                               data-toggle="dropdown"> 用户管理 <span class="caret"></span></a>
                             <ul role="menu" class="dropdown-menu">
                                 <li><a href="">菜单列表</a>
                                 </li>
@@ -45,7 +48,8 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 博文管理 <span class="caret"></span></a>
+                            <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
+                               data-toggle="dropdown"> 博文管理 <span class="caret"></span></a>
                             <ul role="menu" class="dropdown-menu">
                                 <li><a href="">菜单列表</a>
                                 </li>
@@ -61,7 +65,7 @@
                     </ul>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
-                            <span>尊敬的：<a href="#">${sessionScope.loginAdmin.username}</a></span>
+                            <span>尊敬的：<a href="${pageContext.request.contextPath}/admin/admin/show/${sessionScope.loginAdmin.aId}">${sessionScope.loginAdmin.username}</a></span>
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="index.html#">
@@ -71,7 +75,8 @@
                                 <li>
                                     <div class="dropdown-messages-box">
                                         <a href="profile.html" class="pull-left">
-                                            <img alt="image" class="img-circle" src="${pageContext.request.contextPath}/resources/admin/img/a7.jpg">
+                                            <img alt="image" class="img-circle"
+                                                 src="${pageContext.request.contextPath}/resources/admin/img/a7.jpg">
                                         </a>
                                         <div class="media-body">
                                             <small class="pull-right">46小时前</small>
@@ -85,7 +90,8 @@
                                 <li>
                                     <div class="dropdown-messages-box">
                                         <a href="profile.html" class="pull-left">
-                                            <img alt="image" class="img-circle" src="${pageContext.request.contextPath}/resources/admin/img/a4.jpg">
+                                            <img alt="image" class="img-circle"
+                                                 src="${pageContext.request.contextPath}/resources/admin/img/a4.jpg">
                                         </a>
                                         <div class="media-body ">
                                             <small class="pull-right text-navy">25小时前</small>
@@ -190,12 +196,14 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <h1 class="no-margins">&yen; 406,420</h1>
-                                        <div class="font-bold text-navy">44% <i class="fa fa-level-up"></i>  <small>增长较快</small>
+                                        <div class="font-bold text-navy">44% <i class="fa fa-level-up"></i>
+                                            <small>增长较快</small>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <h1 class="no-margins">206,120</h1>
-                                        <div class="font-bold text-navy">22% <i class="fa fa-level-up"></i>  <small>增长较慢</small>
+                                        <div class="font-bold text-navy">22% <i class="fa fa-level-up"></i>
+                                            <small>增长较慢</small>
                                         </div>
                                     </div>
                                 </div>
@@ -351,10 +359,8 @@
                 <strong>Copyright</strong> H+ &copy; 2016
             </div>
         </div>
-
     </div>
 </div>
-
 
 
 <!-- Mainly scripts -->

@@ -3,14 +3,18 @@ package com.doing.blog.controller;
 import com.doing.blog.been.AjaxResult;
 import com.doing.blog.model.Admin;
 import com.doing.blog.service.AdminService;
+import com.doing.blog.util.Encrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -23,6 +27,10 @@ public class AdminController extends BaseController<Admin, Long> {
     @Autowired
     private AdminService adminService;
 
+    /**
+     * 后台管理员页面
+     * @return
+     */
     @RequestMapping("/list")
     public String list(){
         return TEMPLATE_PATH+"list";
@@ -71,6 +79,64 @@ public class AdminController extends BaseController<Admin, Long> {
     public String logout(HttpSession session){
         session.removeAttribute("loginAdmin");
         return REDIRECT_URL + "admin/loginUI";
+    }
+
+    /**
+     * 查看管理员个人信息
+     * @param aId
+     * @param model
+     * @return
+     */
+    @RequestMapping(value="/show/{aId}")
+    public String show(@PathVariable String aId, Model model){
+        try {
+            Admin admin = adminService.selectByPrimaryKey(aId);
+            model.addAttribute("admin", admin);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return TEMPLATE_PATH + "show";
+    }
+
+    /**
+     * 跳转到修改管理员信息页面
+     * @param aId
+     * @param model
+     * @return
+     */
+    @RequestMapping(value="/saveUI/{aId}")
+    public String saveUI(@PathVariable String aId, Model model){
+        try {
+            Admin admin = adminService.selectByPrimaryKey(aId);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            simpleDateFormat.format(admin.getBirthday());
+            admin.setBirthday(null);
+            //todo
+            model.addAttribute("admin", admin);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return TEMPLATE_PATH + "saveUI";
+    }
+
+    /**
+     * 修改管理员信息
+     * @param admin
+     * @param redirectAttributes
+     * @return
+     */
+    @RequestMapping(value="/updateUI", method=RequestMethod.POST)
+    public String updateUI(Admin admin, RedirectAttributes redirectAttributes){
+        try {
+            admin.setPassword(Encrypt.e(admin.getPassword()));  //把密码加密
+            adminService.updateByPrimaryKey(admin);
+            redirectAttributes.addFlashAttribute("msg", RESULT_SUCCESS);
+            return REDIRECT_URL + "admin/show/" + admin.getaId();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        redirectAttributes.addFlashAttribute("msg", RESULT_fail);
+        return REDIRECT_URL + "admin/list";
     }
 
 }

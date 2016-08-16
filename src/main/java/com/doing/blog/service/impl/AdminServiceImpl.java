@@ -19,4 +19,13 @@ public class AdminServiceImpl implements AdminService {
         admin.setPassword(Encrypt.e(admin.getPassword()));
         return adminMapper.login(admin);
     }
+
+    public Admin selectByPrimaryKey(String aid) throws Exception {
+        Admin admin = adminMapper.selectByPrimaryKey(aid);
+        return admin;
+    }
+
+    public int updateByPrimaryKey(Admin admin) throws Exception {
+        return adminMapper.updateByPrimaryKey(admin);
+    }
 }
