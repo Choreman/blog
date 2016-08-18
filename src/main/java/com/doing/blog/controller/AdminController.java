@@ -3,6 +3,7 @@ package com.doing.blog.controller;
 import com.doing.blog.been.AjaxResult;
 import com.doing.blog.model.Admin;
 import com.doing.blog.service.AdminService;
+import com.doing.blog.util.CommonDateParseUtil;
 import com.doing.blog.util.Encrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -108,10 +110,6 @@ public class AdminController extends BaseController<Admin, Long> {
     public String saveUI(@PathVariable String aId, Model model){
         try {
             Admin admin = adminService.selectByPrimaryKey(aId);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            simpleDateFormat.format(admin.getBirthday());
-            admin.setBirthday(null);
-            //todo
             model.addAttribute("admin", admin);
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,17 +124,29 @@ public class AdminController extends BaseController<Admin, Long> {
      * @return
      */
     @RequestMapping(value="/updateUI", method=RequestMethod.POST)
-    public String updateUI(Admin admin, RedirectAttributes redirectAttributes){
+    public String updateUI(Admin admin, String birthday_time, HttpSession session, RedirectAttributes redirectAttributes){
         try {
-            admin.setPassword(Encrypt.e(admin.getPassword()));  //把密码加密
+            if(birthday_time != null){  //判断从前台传过来的生日是否为空，若为空则不修改
+                //此处意思是，从前台传字符串类型的“生日”过来，在此处进行 String-->Date 类型转换，进行保存进数据库
+                //局限于现在的技术，只能采取如此办法进行保存
+                Date birthday = CommonDateParseUtil.string2date(birthday_time, "yyyy-MM-dd HH:mm:ss");
+                admin.setBirthday(birthday);
+            }
+
             adminService.updateByPrimaryKey(admin);
-            redirectAttributes.addFlashAttribute("msg", RESULT_SUCCESS);
+            session.setAttribute("loginAdmin", admin);  //修改管理员信息后，把新的信息保存进session中
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "保存修改成功"));
             return REDIRECT_URL + "admin/show/" + admin.getaId();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        redirectAttributes.addFlashAttribute("msg", RESULT_fail);
+        redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "修改失败，请重新修改"));
         return REDIRECT_URL + "admin/list";
+    }
+
+    @RequestMapping("/test")
+    public String test(){
+        return TEMPLATE_PATH + "test";
     }
 
 }

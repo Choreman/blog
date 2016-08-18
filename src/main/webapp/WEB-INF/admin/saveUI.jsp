@@ -72,7 +72,7 @@
                         </ul>
                         <ul class="nav navbar-top-links navbar-right">
                             <li>
-                                <span>尊敬的：<a href="${pageContext.request.contextPath}/admin/admin/show/${sessionScope.loginAdmin.aId}">${sessionScope.loginAdmin.username}</a></span>
+                                <span>尊敬的：<a href="${pageContext.request.contextPath}/admin/admin/show/${sessionScope.loginAdmin.aId}">${admin.username}</a></span>
                             </li>
                             <li class="dropdown">
                                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="index.html#">
@@ -201,13 +201,19 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">生日</label>
                             <div class="col-sm-6">
-                                <input type="datetime" value="${admin.birthday}" name="birthday" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" class="laydate-icon">
+                                <input type="datetime" value="${admin.birthday}" name="birthday_time" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" class="laydate-icon">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">电话号码</label>
                             <div class="col-sm-6">
                                 <input type="text" value="${admin.phone}" name="phone" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">创建时间</label>
+                            <div class="col-sm-6">
+                                <input type="datetime" value="${admin.createDate}" name="createDate" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
@@ -230,5 +236,6 @@
         </div>
         </div>
     </div>
+
 </body>
 </html>

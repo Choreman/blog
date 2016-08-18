@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -9,10 +10,26 @@
     <title>管理员信息</title>
 
     <link href="${pageContext.request.contextPath}/resources/admin/css/bootstrap.min.css?v=3.4.0" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/admin/font-awesome/css/font-awesome.css?v=4.3.0"
-          rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/admin/font-awesome/css/font-awesome.css?v=4.3.0" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/admin/css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/admin/css/animate.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/admin/css/style.css?v=2.2.0" rel="stylesheet">
+
+    <!-- Mainly scripts -->
+    <script src="${pageContext.request.contextPath}/resources/admin/js/jquery-2.1.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/bootstrap.min.js?v=3.4.0"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="${pageContext.request.contextPath}/resources/admin/js/hplus.js?v=2.2.0"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/pace/pace.min.js"></script>
+
+    <!-- iCheck -->
+    <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- layer弹窗插件 -->
+    <script src="${pageContext.request.contextPath}/resources/lib/layer/layer.js"></script>
 
 </head>
 <body class="top-navigation">
@@ -64,7 +81,7 @@
                     </ul>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
-                            <span>尊敬的：<a href="${pageContext.request.contextPath}/admin/admin/show/${sessionScope.loginAdmin.aId}">${sessionScope.loginAdmin.username}</a></span>
+                            <span>尊敬的：<a href="${pageContext.request.contextPath}/admin/admin/show/${sessionScope.loginAdmin.aId}">${admin.username}</a></span>
                         </li>
                         <li>
                             <a href="${pageContext.request.contextPath}/admin/admin/logout">
@@ -105,8 +122,11 @@
                                 </div>
                                 <div class="user-button">
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <a href="${pageContext.request.contextPath}/admin/admin/saveUI/${sessionScope.loginAdmin.aId}"><button type="button" class="btn btn-primary btn-sm btn-block">修改个人信息</button></a>
+                                        <div class="col-md-6">
+                                            <a href="${pageContext.request.contextPath}/admin/admin/saveUI/${sessionScope.loginAdmin.aId}"><button type="button" class="btn btn-block btn-outline btn-primary">修改个人信息</button></a>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a data-toggle="modal" href="#modal-form"><button type="button" class="btn btn-block btn-outline btn-primary">修改密码</button></a>
                                         </div>
                                     </div>
                                 </div>
@@ -246,5 +266,53 @@
         </div>
     </div>
 </div>
+
+<!-- 修改密码的弹窗界面 -->
+<div id="modal-form" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6 b-r">
+                        <h3 class="m-t-none m-b">登录</h3>
+
+                        <p>欢迎登录本站(⊙o⊙)</p>
+
+                        <form role="form">
+                            <div class="form-group">
+                                <label>用户名：</label>
+                                <input type="email" placeholder="请输入用户名" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>密码：</label>
+                                <input type="password" placeholder="请输入密码" class="form-control">
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>登录</strong>
+                                </button>
+                                <label>
+                                    <input type="checkbox" class="i-checks">自动登录</label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-6">
+                        <h4>还不是会员？</h4>
+                        <p>您可以注册一个账户</p>
+                        <p class="text-center">
+                            <a href="form_basic.html"><i class="fa fa-sign-in big-icon"></i></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
+<c:if test="${result != null}">
+    <script>
+        var success = ${result.success};
+        var msg = '${result.msg}';
+        layer.msg("提示：" + msg);
+    </script>
+</c:if>
 </html>

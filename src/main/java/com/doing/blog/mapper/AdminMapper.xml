@@ -337,14 +337,32 @@
       This element was generated on Tue Aug 16 14:36:53 CST 2016.
     -->
     update blog_admin
-    set login_name = #{loginName,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=VARCHAR},
-      birthday = #{birthday,jdbcType=TIMESTAMP},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      phone = #{phone,jdbcType=VARCHAR},
-      visits_number = #{visitsNumber,jdbcType=BIGINT}
+    <set>
+      <if test="loginName != null">
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="visitsNumber != null">
+        visits_number = #{visitsNumber,jdbcType=BIGINT}
+      </if>
+    </set>
     where a_id = #{aId,jdbcType=VARCHAR}
   </update>
 
