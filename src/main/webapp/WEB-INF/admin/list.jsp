@@ -9,8 +9,7 @@
     <title>后台管理首页</title>
 
     <link href="${pageContext.request.contextPath}/resources/admin/css/bootstrap.min.css?v=3.4.0" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/admin/font-awesome/css/font-awesome.css?v=4.3.0"
-          rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/admin/font-awesome/css/font-awesome.css?v=4.3.0" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/admin/css/animate.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/admin/css/style.css?v=2.2.0" rel="stylesheet">
 
@@ -31,7 +30,7 @@
                 <div class="navbar-collapse collapse" id="navbar">
                     <ul class="nav navbar-nav">
                         <li class="active">
-                            <a aria-expanded="false" role="button" href="">返回前台首页</a>
+                            <a aria-expanded="false" role="button" href="${pageContext.request.contextPath}/index.jsp">返回前台首页</a>
                         </li>
                         <li class="dropdown">
                             <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
