@@ -273,40 +273,85 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-6 b-r">
-                        <h3 class="m-t-none m-b">登录</h3>
-
-                        <p>欢迎登录本站(⊙o⊙)</p>
-
-                        <form role="form">
-                            <div class="form-group">
-                                <label>用户名：</label>
-                                <input type="email" placeholder="请输入用户名" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>密码：</label>
-                                <input type="password" placeholder="请输入密码" class="form-control">
-                            </div>
-                            <div>
-                                <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>登录</strong>
-                                </button>
-                                <label>
-                                    <input type="checkbox" class="i-checks">自动登录</label>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-sm-6">
-                        <h4>还不是会员？</h4>
-                        <p>您可以注册一个账户</p>
-                        <p class="text-center">
-                            <a href="form_basic.html"><i class="fa fa-sign-in big-icon"></i></a>
-                        </p>
+                    <div class="col-sm-12 b-r">
+                        <h2 class="m-t-none m-b">修改密码</h2>
+                        <div class="form-group">
+                            <label>请输入密码：</label>
+                            <input type="password" name="password1" id="password1" placeholder="6~10位" class="form-control"><div style="display: inline" id="tip1"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>再次输入密码：</label>
+                            <input type="password" name="password2" id="password2" placeholder="再次输入密码" class="form-control"><div style="display: inline" id="tip2"></div>
+                        </div>
+                        <br/>
+                        <div id="tip3" class="pull-left"></div>
+                        <div>
+                            <button id="btn" class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>确认修改</strong></button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $("#password1").blur(function(){
+            var num = $("#password1").val().length;
+            if(num < 6){
+                $("#tip1").html("<font color=\"red\" size=\"3\"> 密码长度太短 </font>");
+            }else if(num > 10){
+                $("#tip1").html("<font color=\"red\" size=\"3\"> 密码长度太长 </font>");
+            }else{
+                $("#tip1").html("<font color=\"green\" size=\"3\"> 密码长度通过 </font>");
+            }
+        })
+
+        $("#password2").blur(function(){
+            var tmp = $("#password1").val();
+            var num = $("#password2").val().length;
+            if($("#password2").val() != tmp){
+                $("#tip2").html("<font color=\"red\" size=\"3\"> 两次输入密码不一致 </font>");
+            }else{
+                if(num >= 6 && num <= 10){
+                    $("#tip2").html("<font color=\"green\" size=\"3\"> 校验通过 </font>");
+                }
+            }
+        })
+
+        $("#btn").click(function(){
+            var flag = true;
+            var password1 = $("#password1").val();
+            var password2 = $("#password2").val();
+            var num1 = $("#password1").val().length;
+            var num2 = $("#password2").val().length;
+            if(num1 != num2 || num1 < 6 || num1 > 10 || num2 < 6 || num2 > 10 || password1 != password2){
+                flag = false;
+            }else{
+                flag = true;
+            }
+            if(flag){
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/admin/admin/updatePassword/${sessionScope.loginAdmin.aId}",
+                    data:{
+                        password: password1
+                    },
+                    success: function(result){
+                        $("#tip3").show().html("<font color=\"green\" size=\"5\"> 修改成功 </font>")
+                        $("#password1").val("");
+                        $("#password2").val("");
+                        $("#tip1").empty();
+                        $("#tip2").empty();
+                        $("#tip3").delay(2000).hide(0);
+                    }
+                })
+            }else{
+                $("#tip3").show().html("<font color=\"red\" size=\"3\"> 请遵循以上提示规则！ </font>");
+            }
+        })
+    })
+</script>
 </body>
 <c:if test="${result != null}">
     <script>
