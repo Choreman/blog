@@ -19,7 +19,7 @@ public abstract class BaseController<T, ID extends Serializable> {
 
     protected String dir = "/WEB-INF/";     //后台的jsp目录，因为所有的文件直接放在WEB-INF下，所以直接用WEB-INF
     protected String TEMPLATE_PATH = dir + TEMPLATE_NAME + "/";     //每个模块的页面地址
-    protected String REDIRECT_URL = "redirect:/" + TEMPLATE_NAME + "/";     //重定向的地址
+    protected String REDIRECT_URL = "redirect:/admin/" + TEMPLATE_NAME + "/";     //重定向的地址
 
     protected static JsonMapper jsonMapper = JsonMapper.nonNullMapper();    //json工具
     protected static AjaxResult ajaxResult = new AjaxResult();      //把json封装进这里

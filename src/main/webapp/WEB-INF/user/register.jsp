@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Doing</title>
+    <title>用户注册</title>
 
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,6 +32,9 @@
     <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
+    <!-- laydate -->
+    <script src="${pageContext.request.contextPath}/resources/lib/laydate/laydate.js"></script>
+
 </head>
 <body>
 <!-- header -->
@@ -44,7 +47,7 @@
                             class="navbar-toggle collapsed" type="button">
                         <i class="fa fa-reorder"></i>
                     </button>
-                    <a href="" class="navbar-brand">首页</a>
+                    <a href="${pageContext.request.contextPath}/index.jsp" class="navbar-brand">首页</a>
                 </div>
                 <div class="navbar-collapse collapse" id="navbar">
                     <ul class="nav navbar-nav">
@@ -80,7 +83,7 @@
                     <ul class="nav navbar-top-links navbar-right">
                         <c:if test="${sessionScope.loginUser == null}">
                             <li><a href=""><i class="fa fa-sign-in"></i> 登陆</a></li>
-                            <li><a href="${pageContext.request.contextPath}/admin/user/register"><i class="fa fa-reply"></i> 注册</a></li>
+                            <li><a href=""><i class="fa fa-reply"></i> 注册</a></li>
                         </c:if>
                         <c:if test="${sessionScope.loginUser != null}">
                             <li><span>尊敬的：<a href="">${sessionScope.loginUser.username}</a></span></li>
@@ -102,84 +105,74 @@
 <div class="content">
     <div class="container">
         <div class="content-text">
-            <div class="title">
-                <div class="some-title">
-                    <h3><a href="">博客标题</a></h3>
-                </div>
-                <div class="john">
-                    <p>博客作者<span>创建博客时间</span></p>
-                </div>
-                <div class="clearfix"></div>
-                <div class="tilte-grid">
-                    <p class="Sed">
-					<span>博客内容</span></p>
-                </div>
-                <div class="border">
-                    <p>a</p>
-                </div>
-                <div class="some-title">
-                    <h3><a href="">博客标题</a></h3>
-                </div>
-                <div class="john">
-                    <p><a href="#">博客作者</a><span>创建博客时间</span></p>
-                </div>
-                <div class="clearfix"></div>
-                <div class="tilte-grid">
-                    <a href=""><img src="${pageContext.request.contextPath}/resources/front-end/images/2.jpg" alt=" "/></a>
-                    <p class="Sed"><span>博客内容</span></p>
-                </div>
-                <div class="read">
-                    <a href="">Read More</a>
-                </div>
-                <div class="border1">
-                    <div class="pre">
-                        <a href="#">pre</a>
-                    </div>
-                    <div class="number">
-                        <ul>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">6</a></li>
-                            <li><a href="#">7</a></li>
-                            <li><a href="#">8</a></li>
-                            <li><a href="#">9</a></li>
-                        </ul>
-                    </div>
-                    <div class="next">
-                        <a href="#">next</a>
-                    </div>
-                </div>
-            </div>
-            <div class="categories">
-                <div class="categ">
-                    <div class="cat">
-                        <h3>导航栏</h3>
-                        <ul>
-                            <li><a href="">1</a></li>
-                            <li><a href="">2</a></li>
-                            <li><a href="">3</a></li>
-                            <li><a href="">4</a></li>
-                        </ul>
-                    </div>
-                    <div class="recent-com">
-                        <h3>补充导航</h3>
-                        <ul>
-                            <li><a href="">Donec consequat</a></li>
-                            <li><a href="">Aliquam erat ipsum,</a></li>
-                            <li><a href="">Etiam aliquet convallis enim ut
-                                <span>Donec at pretium dui</span></a></li>
-                            <li><a href="">Nulla sed massa sagittis</a></li>
-                        </ul>
-                    </div>
-                    <div class="view">
-                        <a href="">View More</a>
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <form action="" method="post" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">登陆账号</label>
+                                <div class="col-sm-6">
+                                    <input type="text" value="" name="loginName" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">昵称</label>
+                                <div class="col-sm-6">
+                                    <input type="text" value="" name="username" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">密码</label>
+                                <div class="col-sm-6">
+                                    <input type="text" value="" name="password" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">再次输入密码</label>
+                                <div class="col-sm-6">
+                                    <input type="text" value="" name="password1" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">性别</label>
+                                <div class="col-sm-6">
+                                    <div class="radio">
+                                        <label><input type="radio" value="男" id="sex1" name="sex" ${admin.sex == '男' ? "checked" : ""}>男</label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <label><input type="radio" value="女" id="sex2" name="sex"  ${admin.sex == '女' ? "checked" : ""}>女</label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <label><input type="radio" value="保密" id="sex3" name="sex"  ${admin.sex == '保密' ? "checked" : ""}>保密</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">生日</label>
+                                <div class="col-sm-6">
+                                    <input type="datetime" value="" name="" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" class="laydate-icon">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">电话号码</label>
+                                <div class="col-sm-6">
+                                    <input type="text" value="" name="" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-6 col-sm-offset-4">
+                                        <div class="col-md-4">
+                                            <a href=""><button type="button" class="btn btn-block btn-outline btn-primary">注册</button></a>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button type="button" onclick="reset()" class="btn btn-block btn-outline btn-primary">重置</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="clearfix"></div>
         </div>
     </div>
 </div>

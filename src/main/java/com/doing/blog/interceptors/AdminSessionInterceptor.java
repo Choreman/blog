@@ -47,14 +47,14 @@ public class AdminSessionInterceptor implements HandlerInterceptor {
         String contextPath = request.getContextPath();
         String url = requestUri.substring(contextPath.length());
         if (excludeUrls.contains(url)) {
-            System.out.println("通过了拦截器");
+            System.out.println("通过了管理员session拦截器");
             return true;
         } else {
             Admin loginAdmin = (Admin) request.getSession().getAttribute("loginAdmin");
             if (loginAdmin != null && loginAdmin.getaId()!= null && !loginAdmin.getaId().equals("")) {
                 return true;
             } else {
-                System.out.println("未通过拦截器");
+                System.out.println("未通过管理员session拦截器");
                 request.setAttribute("result", new AjaxResult(false, "您还没有登录或登录已超时，请重新登录"));
                 request.getRequestDispatcher("/WEB-INF/admin/loginUI.jsp").forward(request, response);
                 return false;

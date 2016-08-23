@@ -5,7 +5,6 @@ import com.doing.blog.model.Admin;
 import com.doing.blog.service.AdminService;
 import com.doing.blog.util.CommonDateParseUtil;
 import com.doing.blog.util.Encrypt;
-import com.sun.deploy.net.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +34,7 @@ public class AdminController extends BaseController<Admin, Long> {
      */
     @RequestMapping("/list")
     public String list(){
-        return TEMPLATE_PATH+"list";
+        return TEMPLATE_PATH + "list";
     }
 
     /**
@@ -60,15 +59,15 @@ public class AdminController extends BaseController<Admin, Long> {
             Admin loginAdmin = adminService.login(admin);
             if(loginAdmin != null){     //如果输入的用户名和密码存在
                 session.setAttribute("loginAdmin", loginAdmin);     //把登陆的用户存进session
-                return REDIRECT_URL + "admin/list";    //通过访问controller的list方法进入后台管理页
+                return REDIRECT_URL + "list";    //通过访问controller的list方法进入后台管理页
             }else{      //如果输入的用户名和密码不存在
                 redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "用户名或者密码错误"));
-                return REDIRECT_URL + "admin/loginUI";        //返回到登陆页重新登陆
+                return REDIRECT_URL + "loginUI";        //返回到登陆页重新登陆
             }
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "出现错误"));
-            return REDIRECT_URL + "admin/loginUI";
+            return REDIRECT_URL + "loginUI";
         }
     }
 
@@ -80,7 +79,7 @@ public class AdminController extends BaseController<Admin, Long> {
     @RequestMapping(value="/logout", method=RequestMethod.GET)
     public String logout(HttpSession session){
         session.removeAttribute("loginAdmin");
-        return REDIRECT_URL + "admin/loginUI";
+        return REDIRECT_URL + "loginUI";
     }
 
     /**
@@ -136,12 +135,12 @@ public class AdminController extends BaseController<Admin, Long> {
             adminService.updateByPrimaryKey(admin);
             session.setAttribute("loginAdmin", admin);  //修改管理员信息后，把新的信息保存进session中
             redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "保存修改成功"));
-            return REDIRECT_URL + "admin/show/" + admin.getaId();
+            return REDIRECT_URL + "show/" + admin.getaId();
         } catch (Exception e) {
             e.printStackTrace();
         }
         redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "修改失败，请重新修改"));
-        return REDIRECT_URL + "admin/show/" + admin.getaId();
+        return REDIRECT_URL + "show/" + admin.getaId();
     }
 
     @RequestMapping(value="/updatePassword/{aId}")
