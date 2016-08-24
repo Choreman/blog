@@ -1,22 +1,109 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>上传头像 Demo</title>
+    <title>用户上传头像</title>
+    
+    <link href="${pageContext.request.contextPath}/resources/admin/css/bootstrap.min.css?v=3.4.0" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/admin/font-awesome/css/font-awesome.css?v=4.3.0" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/admin/css/animate.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/admin/css/style.css?v=2.2.0" rel="stylesheet">
+
+    <!-- 后台模板的 Mainly scripts -->
+    <script src="${pageContext.request.contextPath}/resources/admin/js/jquery-2.1.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/bootstrap.min.js?v=3.4.0"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    
+    <!-- 头像上传插件相关js文件 -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/front-end/js/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/lib/fullAvatarEditor-2.1/scripts/fullAvatarEditor.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/lib/fullAvatarEditor-2.1/scripts/swfobject.js"></script>
 </head>
 <body>
-<div style="width:632px;margin: 0 auto;text-align:center">
-    <h1 style="text-align:center">富头像上传编辑器演示</h1>
-    <div>
-        <p id="swfContainer">
-            本组件需要安装Flash Player后才可使用，请从<a href="http://www.adobe.com/go/getflashplayer">这里</a>下载安装。
-        </p>
+<!-- header -->
+<div class="header">
+    <div class="container">
+        <div class="row border-bottom white-bg">
+            <nav class="navbar navbar-static-top" role="navigation">
+                <div class="navbar-header">
+                    <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse"
+                            class="navbar-toggle collapsed" type="button">
+                        <i class="fa fa-reorder"></i>
+                    </button>
+                    <a href="" class="navbar-brand">首页</a>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
+                               data-toggle="dropdown"> 用户管理 <span class="caret"></span></a>
+                            <ul role="menu" class="dropdown-menu">
+                                <li><a href="">菜单列表</a>
+                                </li>
+                                <li><a href="">菜单列表</a>
+                                </li>
+                                <li><a href="">菜单列表</a>
+                                </li>
+                                <li><a href="">菜单列表</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
+                               data-toggle="dropdown"> 博文管理 <span class="caret"></span></a>
+                            <ul role="menu" class="dropdown-menu">
+                                <li><a href="">菜单列表</a>
+                                </li>
+                                <li><a href="">菜单列表</a>
+                                </li>
+                                <li><a href="">菜单列表</a>
+                                </li>
+                                <li><a href="">菜单列表</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <c:if test="${sessionScope.loginUser == null}">
+                            <li><a href="${pageContext.request.contextPath}/admin/user/loginUI"><i class="fa fa-sign-in"></i> 登陆</a></li>
+                            <li><a href="${pageContext.request.contextPath}/admin/user/register"><i class="fa fa-reply"></i> 注册</a></li>
+                        </c:if>
+                        <c:if test="${sessionScope.loginUser != null}">
+                            <li><span>尊敬的：<a href="${pageContext.request.contextPath}/admin/user/show/${sessionScope.loginUser.uId}">${sessionScope.loginUser.username}</a></span></li>
+                            <li>
+                                <a href="${pageContext.request.contextPath}/admin/user/logout">
+                                    <i class="fa fa-sign-out"></i> 退出
+                                </a>
+                            </li>
+                        </c:if>
+                    </ul>
+                </div>
+            </nav>
+        </div>
     </div>
-    <button type="button" id="upload" style="display:none;margin-top:8px;">swf外定义的上传按钮，点击可执行上传保存操作</button>
 </div>
+<!-- header -->
+
+<!-- content -->
+<div class="content" style="margin-left: 119px">
+    <div class="wrapper wrapper-content" style="width: 1170px;background: #ffffff">
+        <div class="container">
+            <div style="width:632px;margin: 0 auto;text-align:center">
+                <div>
+                    <p id="swfContainer">
+                        本组件需要安装Flash Player后才可使用，请从<a href="http://www.adobe.com/go/getflashplayer">这里</a>下载安装。
+                    </p>
+                </div>
+                <button type="button" id="upload" style="display:none;margin-top:8px;">swf外定义的上传按钮，点击可执行上传保存操作</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content -->
+
+<!-- 头像上传相关js代码 -->
 <script type="text/javascript">
     swfobject.addDomLoadEvent(function () {
         var swf = new fullAvatarEditor("${pageContext.request.contextPath}/resources/lib/fullAvatarEditor-2.1/fullAvatarEditor.swf", "expressInstall.swf", "swfContainer", {
@@ -68,8 +155,8 @@
                         switch (json.type) {
                                 //表示图片上传成功。
                             case 0:
-                                alert('原图片位于服务器的虚拟路径为' + json.content.sourceUrl);
-                                alert('头像图片位于服务器的虚拟路径为' + json.content.avatarUrls.join(','));
+                                //alert('原图片位于服务器的虚拟路径为' + json.content.sourceUrl);
+                                //alert('头像图片位于服务器的虚拟路径为' + json.content.avatarUrls.join(','));
                                 break;
                             case 1:
                                 alert('头像上传失败，原因：' + json.content.msg);//will output:头像上传失败，原因：上传的原图文件大小超出限值了！
@@ -90,5 +177,6 @@
     });
 
 </script>
+
 </body>
 </html>

@@ -28,4 +28,13 @@ public class UserServiceImpl implements UserService{
     public User login(User user) throws Exception {
         return userMapper.login(user);
     }
+
+    public User selectByPrimaryKey(Long uId) throws Exception {
+        User user = userMapper.selectByPrimaryKey(uId);
+        return user;
+    }
+
+    public int updateByPrimaryKeySelective(User user) throws Exception {
+        return userMapper.updateByPrimaryKeySelective(user);
+    }
 }

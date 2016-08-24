@@ -28,4 +28,20 @@ public interface UserService {
      */
     User login(User user) throws Exception;
 
+    /**
+     * 通过id查找相关用户记录
+     * @param uId
+     * @return
+     * @throws Exception
+     */
+    User selectByPrimaryKey(Long uId) throws Exception;
+
+    /**
+     * 修改用户信息
+     * @param user
+     * @return
+     * @throws Exception
+     */
+    int updateByPrimaryKeySelective(User user) throws Exception;
+
 }

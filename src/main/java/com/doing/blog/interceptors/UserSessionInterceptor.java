@@ -37,7 +37,7 @@ public class UserSessionInterceptor implements HandlerInterceptor{
             return true;
         } else {
             User loginUser = (User) request.getSession().getAttribute("loginUser");
-            if (loginUser != null && loginUser.getuId()!= null && !loginUser.getuId().equals("")) {
+            if (loginUser != null && loginUser.getuId()!= null && loginUser.getuId() != 0) {
                 return true;
             } else {
                 System.out.println("未通过用户session拦截器");

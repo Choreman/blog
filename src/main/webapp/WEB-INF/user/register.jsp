@@ -89,13 +89,13 @@
                     </ul>
                     <ul class="nav navbar-top-links navbar-right">
                         <c:if test="${sessionScope.loginUser == null}">
-                            <li><a href=""><i class="fa fa-sign-in"></i> 登陆</a></li>
-                            <li><a href=""><i class="fa fa-reply"></i> 注册</a></li>
+                            <li><a href="${pageContext.request.contextPath}/admin/user/loginUI"><i class="fa fa-sign-in"></i> 登陆</a></li>
+                            <li><a href="${pageContext.request.contextPath}/admin/user/register"><i class="fa fa-reply"></i> 注册</a></li>
                         </c:if>
                         <c:if test="${sessionScope.loginUser != null}">
-                            <li><span>尊敬的：<a href="">${sessionScope.loginUser.username}</a></span></li>
+                            <li><span>尊敬的：<a href="${pageContext.request.contextPath}/admin/user/show/${sessionScope.loginUser.uId}">${sessionScope.loginUser.username}</a></span></li>
                             <li>
-                                <a href="">
+                                <a href="${pageContext.request.contextPath}/admin/user/logout">
                                     <i class="fa fa-sign-out"></i> 退出
                                 </a>
                             </li>
@@ -166,6 +166,8 @@
                                 </div>
                             </div>
                             <br>
+                            <!-- 在隐藏域中先保存用户的默认头像名称 -->
+                            <input type="hidden" name="headPortrait" value="default_headPortrait"/>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-6 col-sm-offset-4">

@@ -34,13 +34,13 @@
                 <property name="excludeUrls">
                     <list>
                         <value>/admin/user/register</value>
-                        <value>/admin/user/head_portrait</value>
-                        <value>/admin/user/headPortraitResult</value>
                         <value>/admin/user/insertUser</value>
                         <value>/admin/user/loginUI</value>
                         <value>/admin/user/selectByLoginName</value>
                         <value>/admin/user/checkLoginName</value>
                         <value>/admin/user/login</value>
+                        <value>/admin/user/logout</value>
+                        <value>/admin/user/updateUI</value>
                     </list>
                 </property>
             </bean>

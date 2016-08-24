@@ -6,6 +6,7 @@ import com.doing.blog.been.HeadPortraitResult;
 import com.doing.blog.model.User;
 import com.doing.blog.service.UserService;
 import com.doing.blog.util.CommonDateParseUtil;
+import com.doing.blog.util.HeadPortraitUtil;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
@@ -15,6 +16,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -54,6 +56,13 @@ public class UserController extends BaseController<User, Long>{
     }
 
 
+    /**
+     * 添加用户信息到数据库
+     * @param user
+     * @param birthday_time
+     * @param redirectAttributes
+     * @return
+     */
     @RequestMapping("/insertUser")
     public String insertUser(User user, String birthday_time, RedirectAttributes redirectAttributes){
         try {
@@ -95,7 +104,7 @@ public class UserController extends BaseController<User, Long>{
             User loginUser = userService.login(user);
             if(loginUser != null){      //如果输入的用户名和密码存在
                 session.setAttribute("loginUser", loginUser);     //把登陆的用户存进session
-                return REDIRECT_URL + "index";
+                return "index";     //todo
             }else{      //如果输入的用户名和密码不存在
                 redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "用户名或者密码错误"));
                 return REDIRECT_URL + "loginUI";        //返回到登陆页重新登陆
@@ -107,6 +116,85 @@ public class UserController extends BaseController<User, Long>{
         }
     }
 
+    /**
+     * 用户退出
+     * @param session
+     * @return
+     */
+    @RequestMapping(value="/logout", method=RequestMethod.GET)
+    public String logout(HttpSession session){
+        session.removeAttribute("loginUser");
+        return "index";     //todo
+    }
+
+    @RequestMapping(value="/show/{uId}")
+    public String show(@PathVariable Long uId, Model model){
+        try {
+            User user = userService.selectByPrimaryKey(uId);
+            String headPortraitPath = HeadPortraitUtil.avatarName(user.getHeadPortrait());
+            model.addAttribute("user", user);
+            model.addAttribute("headPortraitPath", headPortraitPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return TEMPLATE_PATH + "show";
+    }
+
+    /**
+     * 修改用户信息
+     * @param user
+     * @param birthday_time
+     * @param session
+     * @param redirectAttributes
+     * @return
+     */
+    @RequestMapping(value="/updateUI", method=RequestMethod.POST)
+    public String updateUI(User user, String birthday_time, HttpSession session, RedirectAttributes redirectAttributes){
+        try {
+            if(birthday_time != null){  //判断从前台传过来的生日是否为空，若为空则不修改
+                //此处意思是，从前台传字符串类型的“生日”过来，在此处进行 String-->Date 类型转换，进行保存进数据库
+                //局限于现在的技术，只能采取如此办法进行保存
+                Date birthday = CommonDateParseUtil.string2date(birthday_time, "yyyy-MM-dd HH:mm:ss");
+                user.setBirthday(birthday);
+            }
+            userService.updateByPrimaryKeySelective(user);      //修改用户信息
+            User loginUser = userService.selectByPrimaryKey(user.getuId()); //确保存进session中的为最新数据
+            session.setAttribute("loginUser", loginUser);  //修改用户信息后，把新的信息保存进session中
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "保存修改成功"));
+            return REDIRECT_URL + "show/" + user.getuId();
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "修改失败，请重新修改"));
+            return REDIRECT_URL + "show/" + user.getuId();
+        }
+    }
+
+    /**
+     * 修改用户密码
+     * @param uId
+     * @param password
+     * @param redirectAttributes
+     * @return
+     */
+    @RequestMapping(value="/updatePassword/{uId}")
+    @ResponseBody
+    public AjaxResult updatePassword(@PathVariable Long uId, String password, RedirectAttributes redirectAttributes){
+        try {
+            User user = userService.selectByPrimaryKey(uId);     //根据id查出对应的记录
+            user.setPassword(password);        //再修改其密码
+            userService.updateByPrimaryKeySelective(user);     //然后重新保存进数据库
+            return successResult;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return failResult;
+    }
+
+    /**
+     * 查询数据库中是否有相同登陆名的记录，用于登陆时的异步查询
+     * @param loginName
+     * @param response
+     */
     @RequestMapping("/checkLoginName")
     public void checkLoginName(String loginName, HttpServletResponse response){
         try {
@@ -152,104 +240,11 @@ public class UserController extends BaseController<User, Long>{
 
     @RequestMapping("/headPortraitResult")
     @ResponseBody
-    public HeadPortraitResult headPortraitResult(HttpServletRequest request) throws IOException, FileUploadException {
-        String contentType = request.getContentType();
-
-        if (contentType.indexOf("multipart/form-data") >= 0) {
-            HeadPortraitResult result = new HeadPortraitResult();
-            result.avatarUrls = new ArrayList();
-            result.success = false;
-            result.msg = "Failure!";
-
-            String userid;
-            String username;
-
-            FileItemFactory factory = new DiskFileItemFactory();
-            ServletFileUpload upload = new ServletFileUpload(factory);
-            FileItemIterator fileItems = null;
-            fileItems = upload.getItemIterator(request);
-            //定义一个变量用以储存当前头像的序号
-            int avatarNumber = 1;
-            //取服务器时间+8位随机码作为部分文件名，确保文件名无重复。
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmssS");
-            String fileName = simpleDateFormat.format(new Date());
-            Random random = new Random();
-            String randomCode = "";
-            for (int i = 0; i < 8; i++) {
-                randomCode += Integer.toString(random.nextInt(36), 36);
-            }
-            fileName = fileName + randomCode;
-            //基于原图的初始化参数
-            String initParams = "";
-            BufferedInputStream inputStream;
-            BufferedOutputStream outputStream;
-            //遍历表单域
-            while (fileItems.hasNext()) {
-                FileItemStream fileItem = fileItems.next();
-                String fieldName = fileItem.getFieldName();
-                //是否是原始图片 file 域的名称（默认的 file 域的名称是__source，可在插件配置参数中自定义。参数名：src_field_name）
-                Boolean isSourcePic = fieldName.equals("__source");
-                //当前头像基于原图的初始化参数（只有上传原图时才会发送该数据，且发送的方式为POST），用于修改头像时保证界面的视图跟保存头像时一致，提升用户体验度。
-                //修改头像时设置默认加载的原图url为当前原图url+该参数即可，可直接附加到原图url中储存，不影响图片呈现。
-                if (fieldName.equals("__initParams")) {
-                    inputStream = new BufferedInputStream(fileItem.openStream());
-                    byte[] bytes = new byte[inputStream.available()];
-                    inputStream.read(bytes);
-                    initParams = new String(bytes, "UTF-8");
-                    inputStream.close();
-                }
-                //如果是原始图片 file 域的名称或者以默认的头像域名称的部分“__avatar”打头(默认的头像域名称：__avatar1,2,3...，可在插件配置参数中自定义，参数名：avatar_field_names)
-                else if (isSourcePic || fieldName.startsWith("__avatar")) {
-                    String virtualPath = "/WEB-INF/user/upload/jsp_avatar" + avatarNumber + "_" + fileName + ".jpg";
-                    //原始图片（默认的 file 域的名称是__source，可在插件配置参数中自定义。参数名：src_field_name）。
-                    if (isSourcePic) {
-                        //文件名，如果是本地或网络图片为原始文件名（不含扩展名）、如果是摄像头拍照则为 *FromWebcam
-                        //fileName = fileItem.getName();
-                        result.sourceUrl = virtualPath = "/WEB-INF/user/upload/jsp_source_" + fileName + ".jpg";
-                    }
-                    //头像图片（默认的 file 域的名称：__avatar1,2,3...，可在插件配置参数中自定义，参数名：avatar_field_names）。
-                    else {
-                        result.avatarUrls.add(virtualPath);
-                        avatarNumber++;
-                    }
-                    inputStream = new BufferedInputStream(fileItem.openStream());
-                    ServletContext application = request.getSession().getServletContext();
-                    outputStream = new BufferedOutputStream(new FileOutputStream(application.getRealPath("/") + virtualPath.replace("/", "\\")));
-                    Streams.copy(inputStream, outputStream, true);
-                    inputStream.close();
-                    outputStream.flush();
-                    outputStream.close();
-                } else {
-                    //注释① upload_url中传递的查询参数，如果定义的method为post请使用下面的代码，否则请删除或注释下面的代码块并使用注释②的代码
-                    inputStream = new BufferedInputStream(fileItem.openStream());
-                    byte[] bytes = new byte[inputStream.available()];
-                    inputStream.read(bytes);
-                    inputStream.close();
-                    if (fieldName.equals("userid")) {
-                        result.userid = new String(bytes, "UTF-8");
-                    } else if (fieldName.equals("username")) {
-                        result.username = new String(bytes, "UTF-8");
-                    }
-                }
-            }
-            //注释② upload_url中传递的查询参数，如果定义的method为get请使用下面注释的代码
-            /*
-            result.userid = request.getParameter("userid");
-            result.username = request.getParameter("username");
-            */
-
-            if (result.sourceUrl != null) {
-                result.sourceUrl += initParams;
-            }
-            result.success = true;
-            result.msg = "Success!";
-            /*
-            To Do...可在此处处理储存事项
-            */
-            //返回图片的保存结果（返回内容为json字符串，可自行构造，该处使用fastjson构造）
-            System.out.println(JSON.toJSONString(result));
-            return result;
-        }
-        return null;
+    public HeadPortraitResult headPortraitResult(HttpSession session, HttpServletRequest request) throws Exception {
+        HeadPortraitResult headPortraitResult = HeadPortraitUtil.uploadHeadPortrait(request);//上传头像
+        User user = (User)session.getAttribute("loginUser");
+        user.setHeadPortrait(headPortraitResult.fileName);  //把上传的头像的名称fileName保存进相应用户里
+        userService.updateByPrimaryKeySelective(user);      //提交修改
+        return headPortraitResult;
     }
 }
