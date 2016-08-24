@@ -32,8 +32,15 @@
     <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-    <!-- laydate -->
+    <!-- laydate日期选择器 -->
     <script src="${pageContext.request.contextPath}/resources/lib/laydate/laydate.js"></script>
+
+    <!-- layer弹窗插件 -->
+    <script src="${pageContext.request.contextPath}/resources/lib/layer/layer.js"></script>
+
+    <!-- Jquery Validate -->
+    <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/validate/messages_zh.min.js"></script>
 
 </head>
 <body>
@@ -108,60 +115,62 @@
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
-                        <form action="" method="post" class="form-horizontal">
+                        <form action="${pageContext.request.contextPath}/admin/user/insertUser" method="post" id="user-form" class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">登陆账号</label>
+                                <label class="col-sm-4 control-label">用户名</label>
                                 <div class="col-sm-6">
-                                    <input type="text" value="" name="loginName" class="form-control">
+                                    <input type="text" value="" placeholder="6~10位数字或字母组合" id="loginName" name="loginName" class="form-control">
+                                    <div style="display: inline" id="loginNameTip"></div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">昵称</label>
                                 <div class="col-sm-6">
-                                    <input type="text" value="" name="username" class="form-control">
+                                    <input type="text" value="" placeholder="用户昵称" name="username" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">密码</label>
                                 <div class="col-sm-6">
-                                    <input type="text" value="" name="password" class="form-control">
+                                    <input type="password" value="" placeholder="6~10位数字或字母组合" id="password" name="password" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">再次输入密码</label>
                                 <div class="col-sm-6">
-                                    <input type="text" value="" name="password1" class="form-control">
+                                    <input type="password" value="" placeholder="再次输入密码" name="password1" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">性别</label>
                                 <div class="col-sm-6">
                                     <div class="radio">
-                                        <label><input type="radio" value="男" id="sex1" name="sex" ${admin.sex == '男' ? "checked" : ""}>男</label>
+                                        <label><input type="radio" value="男" id="sex1" name="sex" checked>男</label>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <label><input type="radio" value="女" id="sex2" name="sex"  ${admin.sex == '女' ? "checked" : ""}>女</label>
+                                        <label><input type="radio" value="女" id="sex2" name="sex">女</label>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <label><input type="radio" value="保密" id="sex3" name="sex"  ${admin.sex == '保密' ? "checked" : ""}>保密</label>
+                                        <label><input type="radio" value="保密" id="sex3" name="sex">保密</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">生日</label>
                                 <div class="col-sm-6">
-                                    <input type="datetime" value="" name="" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" class="laydate-icon">
+                                    <input type="datetime" value="" placeholder="请输入具体日期" name="birthday_time" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" class="laydate-icon">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">电话号码</label>
                                 <div class="col-sm-6">
-                                    <input type="text" value="" name="" class="form-control">
+                                    <input type="text" value="" placeholder="11位纯数字" name="phone" class="form-control">
                                 </div>
                             </div>
+                            <br>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-6 col-sm-offset-4">
                                         <div class="col-md-4">
-                                            <a href=""><button type="button" class="btn btn-block btn-outline btn-primary">注册</button></a>
+                                            <button type="button" id="btn" class="btn btn-block btn-outline btn-primary">注册</button>
                                         </div>
                                         <div class="col-md-4">
                                             <button type="button" onclick="reset()" class="btn btn-block btn-outline btn-primary">重置</button>
@@ -186,5 +195,74 @@
 </div>
 <!-- //footer -->
 
+<!-- 验证表单信息的js代码 -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#user-form").validate({
+            rules: {
+                loginName: {
+                    required:true,
+                    rangelength:[6,10],
+                    remote: {       //发送ajax请求，到数据库查询是否有相同的loginName
+                        url: "${pageContext.request.contextPath}/admin/user/selectByLoginName",
+                        type: "post",
+                    }
+                },
+                username: {
+                    required:true,
+                    minlength:1,
+                },
+                password: {
+                    required:true,
+                    rangelength:[6,10],
+                },
+                password1: {
+                    required: true,
+                    equalTo:"#password",
+                },
+                birthday_time: {
+
+                },
+                phone: {
+                    number:true,
+                    rangelength:[11,11]
+                }
+            },
+            messages: {
+                loginName: {
+                    required: "请输入你的用户名",
+                    rangelength: "请输入6到10位数字或字母组合",
+                    remote: "用户名已经存在，请重新注册"
+                },
+                password: {
+                    required: "请输入您的密码",
+                    rangelength: "请输入6到10位数字或字母组合",
+                },
+                password1: {
+                    required: "请输入您的密码",
+                    equalTo: "与上述密码不符合",
+                },
+                birthday_time: {
+
+                },
+                phone: {
+                    number: "必须为纯数字",
+                    rangelength: "位数必须为11位",
+                }
+            }
+        });
+
+        //提交表单
+        $("#btn").click(function(){
+            $("#user-form").submit();
+        })
+    });
+</script>
 </body>
+<c:if test="${result != null}">
+    <script>
+        var msg = '${result.msg}';
+        layer.msg("提示：" + msg);
+    </script>
+</c:if>
 </html>

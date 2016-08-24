@@ -5,6 +5,7 @@ import com.doing.blog.been.AjaxResult;
 import com.doing.blog.been.HeadPortraitResult;
 import com.doing.blog.model.User;
 import com.doing.blog.service.UserService;
+import com.doing.blog.util.CommonDateParseUtil;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
@@ -14,11 +15,16 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -45,6 +51,93 @@ public class UserController extends BaseController<User, Long>{
     @RequestMapping("/register")
     public String register(){
         return TEMPLATE_PATH + "register";
+    }
+
+
+    @RequestMapping("/insertUser")
+    public String insertUser(User user, String birthday_time, RedirectAttributes redirectAttributes){
+        try {
+            if(birthday_time != null){  //判断从前台传过来的生日是否为空，若为空则不修改
+                //此处意思是，从前台传字符串类型的“生日”过来，在此处进行 String-->Date 类型转换，进行保存进数据库
+                //局限于现在的技术，只能采取如此办法进行保存
+                Date birthday = CommonDateParseUtil.string2date(birthday_time, "yyyy-MM-dd HH:mm:ss");
+                user.setBirthday(birthday);
+            }
+            userService.insertUser(user);
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "注册成功"));
+            return REDIRECT_URL + "loginUI";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "注册失败，请重新注册"));
+        return REDIRECT_URL + "register";
+    }
+
+    /**
+     * 访问用户登陆页面
+     * @return
+     */
+    @RequestMapping("/loginUI")
+    public String loginUI(){
+        return TEMPLATE_PATH + "loginUI";
+    }
+
+    /**
+     * 用户登陆
+     * @param user
+     * @param session
+     * @param redirectAttributes
+     * @return
+     */
+    @RequestMapping(value="/login", method= RequestMethod.POST)
+    public String login(User user, HttpSession session, RedirectAttributes redirectAttributes){
+        try {
+            User loginUser = userService.login(user);
+            if(loginUser != null){      //如果输入的用户名和密码存在
+                session.setAttribute("loginUser", loginUser);     //把登陆的用户存进session
+                return REDIRECT_URL + "index";
+            }else{      //如果输入的用户名和密码不存在
+                redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "用户名或者密码错误"));
+                return REDIRECT_URL + "loginUI";        //返回到登陆页重新登陆
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "出现错误"));
+            return REDIRECT_URL + "loginUI";    //返回到登陆页重新登陆
+        }
+    }
+
+    @RequestMapping("/checkLoginName")
+    public void checkLoginName(String loginName, HttpServletResponse response){
+        try {
+            User user = userService.selectByLoginName(loginName);       //根据用户名到数据库查找记录
+            if(user != null){       //如果查找的记录不为空
+                response.getWriter().print(true);       //查找到有相关记录返回true，允许登陆
+            }else{
+                response.getWriter().print(false);      //查找不到有相关记录，返回false，不允许登陆
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 查询数据库中是否有相同登陆名的记录，用于注册时的异步查询
+     * @param loginName
+     * @param response
+     */
+    @RequestMapping("/selectByLoginName")
+    public void selectByLoginName(String loginName, HttpServletResponse response){
+        try {
+            User user = userService.selectByLoginName(loginName);   //根据用户名到数据库查找记录
+            if(user != null){       //如果查找的记录不为空
+                response.getWriter().print(false);      //查找到有相关记录返回false，不允许注册
+            }else{
+                response.getWriter().print(true);       //查找不到有相关记录，则返回true，允许注册
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

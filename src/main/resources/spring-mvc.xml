@@ -36,6 +36,11 @@
                         <value>/admin/user/register</value>
                         <value>/admin/user/head_portrait</value>
                         <value>/admin/user/headPortraitResult</value>
+                        <value>/admin/user/insertUser</value>
+                        <value>/admin/user/loginUI</value>
+                        <value>/admin/user/selectByLoginName</value>
+                        <value>/admin/user/checkLoginName</value>
+                        <value>/admin/user/login</value>
                     </list>
                 </property>
             </bean>
