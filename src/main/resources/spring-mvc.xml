@@ -39,8 +39,6 @@
                         <value>/admin/user/selectByLoginName</value>
                         <value>/admin/user/checkLoginName</value>
                         <value>/admin/user/login</value>
-                        <value>/admin/user/logout</value>
-                        <value>/admin/user/updateUI</value>
                     </list>
                 </property>
             </bean>

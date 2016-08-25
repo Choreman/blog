@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -50,9 +51,9 @@
                             <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
                                data-toggle="dropdown"> 博文管理 <span class="caret"></span></a>
                             <ul role="menu" class="dropdown-menu">
-                                <li><a href="">菜单列表</a>
+                                <li><a href="${pageContext.request.contextPath}/admin/admin/article">发表博客</a>
                                 </li>
-                                <li><a href="">菜单列表</a>
+                                <li><a href="${pageContext.request.contextPath}/admin/admin/selectArticle">查看博文</a>
                                 </li>
                                 <li><a href="">菜单列表</a>
                                 </li>
@@ -387,6 +388,9 @@
 <!-- Peity demo -->
 <script src="${pageContext.request.contextPath}/resources/admin/js/demo/peity-demo.js"></script>
 
+<!-- layer弹窗插件 -->
+<script src="${pageContext.request.contextPath}/resources/lib/layer/layer.js"></script>
+
 
 <script>
     $(document).ready(function () {
@@ -486,4 +490,11 @@
     });
 </script>
 </body>
+<c:if test="${result != null}">
+    <script>
+        var success = ${result.success};
+        var msg = '${result.msg}';
+        layer.msg("提示：" + msg);
+    </script>
+</c:if>
 </html>

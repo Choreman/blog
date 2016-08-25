@@ -2,7 +2,9 @@ package com.doing.blog.controller;
 
 import com.doing.blog.been.AjaxResult;
 import com.doing.blog.model.Admin;
+import com.doing.blog.model.Article;
 import com.doing.blog.service.AdminService;
+import com.doing.blog.service.ArticleService;
 import com.doing.blog.util.CommonDateParseUtil;
 import com.doing.blog.util.Encrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class AdminController extends BaseController<Admin, Long> {
 
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private ArticleService articleService;
 
     /**
      * 后台管理员页面
@@ -155,6 +159,34 @@ public class AdminController extends BaseController<Admin, Long> {
             e.printStackTrace();
         }
         return failResult;
+    }
+
+    /**
+     * 发表博客页面
+     * @return
+     */
+    @RequestMapping("/article")
+    public String article(){
+        return TEMPLATE_PATH + "article";
+    }
+
+    /**
+     * 发表博客文章
+     * @param article
+     * @param redirectAttributes
+     * @return
+     */
+    @RequestMapping("/addArticle")
+    public String addArticle(Article article, RedirectAttributes redirectAttributes){
+        try {
+            articleService.insertArticle(article);
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "发表文章成功"));
+            return REDIRECT_URL + "list";
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "发表失败，请重新发表"));
+            return REDIRECT_URL + "article";
+        }
     }
 
 
