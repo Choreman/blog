@@ -53,7 +53,7 @@
                             <ul role="menu" class="dropdown-menu">
                                 <li><a href="${pageContext.request.contextPath}/admin/admin/article">发表博客</a>
                                 </li>
-                                <li><a href="${pageContext.request.contextPath}/admin/admin/selectArticle">查看博文</a>
+                                <li><a href="${pageContext.request.contextPath}/admin/admin/showArticle">查看博文</a>
                                 </li>
                                 <li><a href="">菜单列表</a>
                                 </li>

@@ -51,7 +51,7 @@
 
         <!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample
             是否生成 example类   -->
-        <table schema="blog" tableName="blog_admin" domainObjectName="Admin" enableCountByExample="true"
+        <table schema="blog" tableName="user_comment" domainObjectName="UserComment" enableCountByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true">
         </table>

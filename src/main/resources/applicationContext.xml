@@ -51,6 +51,18 @@
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <!-- 扫描mapper.xml文件 -->
         <property name="mapperLocations" value="classpath:com/doing/blog/mapper/*Mapper.xml"/>
+        <!-- 配置mybatis分页插件PageHelper，也可以在mybatis的配置文件中配置 -->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageHelper">
+                    <property name="properties">
+                        <value>
+                            dialect=mysql
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
     </bean>
 
     <!-- Mybatis与Spring整合配置，自动扫描mapper接口，并注入sqlSessionFactory -->

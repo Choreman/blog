@@ -105,6 +105,7 @@
                 </div>
                 <div class="hr-line-dashed"></div>
                 <form action="${pageContext.request.contextPath}/admin/admin/addArticle" id="admin-article" method="post" class="form-horizontal">
+                    <input type="hidden" name="adminId" value="${sessionScope.loginAdmin.aId}">
                     <div class="form-group">
                         <label class="col-sm-4 control-label">文章标题</label>
                         <div class="col-sm-6">

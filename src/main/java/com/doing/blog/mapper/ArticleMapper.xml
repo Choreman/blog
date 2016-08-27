@@ -22,6 +22,16 @@
     -->
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
+
+  <!-- getPageBean，获取datatable所需的相关分页数据 -->
+  <parameterMap type="java.util.Map" id="getPageBean">
+    <parameter property="pageOffset" mode="IN" jdbcType="INTEGER"/>
+    <parameter property="size" mode="IN" jdbcType="INTEGER"/>
+    <parameter property="searchText" mode="IN" jdbcType="VARCHAR"/>
+    <parameter property="sort" mode="IN" jdbcType="VARCHAR"/>
+    <parameter property="order" mode="IN" jdbcType="VARCHAR"/>
+  </parameterMap>
+
   <sql id="Example_Where_Clause">
     <!--
       WARNING - @mbggenerated
@@ -384,4 +394,37 @@
       admin_id = #{adminId,jdbcType=VARCHAR}
     where article_id = #{articleId,jdbcType=BIGINT}
   </update>
+
+  <!-- datatable插件分页所需查询，分别是countAll、selectAllArticle -->
+  <select id="countAll" parameterMap="getPageBean" resultType="int">
+    SELECT count(*)
+      FROM blog_article a
+        <if test="searchText !=null">
+          WHERE  a.title LIKE #{searchText}
+          OR a.create_date LIKE #{searchText}
+          OR a.visits_number LIKE #{searchText}
+          OR a.comment_id LIKE #{searchText}
+          OR a.admin_id LIKE #{searchText}
+        </if>
+      <if test="sort != null">
+        ORDER BY #{sort} #{order}
+      </if>
+  </select>
+  <select id="selectAllArticle" parameterMap="getPageBean" resultMap="BaseResultMap">
+    SELECT *
+    FROM blog_article a
+    <if test="searchText !=null">
+      WHERE  a.title LIKE #{searchText}
+      OR a.create_date LIKE #{searchText}
+      OR a.visits_number LIKE #{searchText}
+      OR a.comment_id LIKE #{searchText}
+      OR a.admin_id LIKE #{searchText}
+    </if>
+    <if test="sort != null">
+      ORDER BY ${sort} ${order}
+    </if>
+    limit #{pageOffset},#{size}
+  </select>
+
+
 </mapper>

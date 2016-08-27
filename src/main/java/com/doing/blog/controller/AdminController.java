@@ -1,6 +1,7 @@
 package com.doing.blog.controller;
 
 import com.doing.blog.been.AjaxResult;
+import com.doing.blog.been.PageBean;
 import com.doing.blog.model.Admin;
 import com.doing.blog.model.Article;
 import com.doing.blog.service.AdminService;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 管理员控制器，继承基础的控制器
@@ -187,6 +189,28 @@ public class AdminController extends BaseController<Admin, Long> {
             redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "发表失败，请重新发表"));
             return REDIRECT_URL + "article";
         }
+    }
+
+    /**
+     * 跳转到查看博文管理页面
+     * @return
+     */
+    @RequestMapping("/showArticle")
+    public String showArticle(){
+        return TEMPLATE_PATH + "showArticle";
+    }
+
+    /**
+     * 异步获取dataTable来展示所有博文
+     * @param searchText
+     * @param sEcho
+     * @param pageBean
+     * @return
+     */
+    @RequestMapping("/dataTable")
+    @ResponseBody
+    public Map dataTable(String searchText, int sEcho, PageBean pageBean) {
+        return adminService.dataTable(searchText, sEcho, pageBean);
     }
 
 

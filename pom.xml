@@ -168,6 +168,20 @@
         </dependency>
         <!-- Mybatis Generator end -->
 
+        <!--mybatis分页插件 pagehelper-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>4.1.4</version>
+        </dependency>
+
+        <!--sql解析工具 使用pagehelper所需要的jar包-->
+        <dependency>
+            <groupId>com.github.jsqlparser</groupId>
+            <artifactId>jsqlparser</artifactId>
+            <version>0.9.4</version>
+        </dependency>
+
         <!-- mysql驱动包 start-->
         <dependency>
             <groupId>mysql</groupId>
@@ -207,6 +221,20 @@
             <version>3.3.2</version>
         </dependency>
         <!-- apache.commons end-->
+
+        <!-- commons-beanutils start-->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- commons-beanutils end-->
 
         <!-- commons-fileupload start-->
         <dependency>
