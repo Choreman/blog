@@ -136,7 +136,7 @@ public class AdminController extends BaseController<Admin, Long> {
                 admin.setBirthday(birthday);
             }
 
-            adminService.updateByPrimaryKey(admin);
+            adminService.updateByPrimaryKeySelective(admin);
             session.setAttribute("loginAdmin", admin);  //修改管理员信息后，把新的信息保存进session中
             redirectAttributes.addFlashAttribute("result", new AjaxResult(true, "保存修改成功"));
             return REDIRECT_URL + "show/" + admin.getaId();
@@ -153,7 +153,7 @@ public class AdminController extends BaseController<Admin, Long> {
         try {
             Admin admin = adminService.selectByPrimaryKey(aId);     //根据id查出对应的记录
             admin.setPassword(Encrypt.e(password));        //再修改其密码
-            adminService.updateByPrimaryKey(admin);     //然后重新保存进数据库
+            adminService.updateByPrimaryKeySelective(admin);     //然后重新保存进数据库
             return successResult;
         } catch (Exception e) {
             e.printStackTrace();

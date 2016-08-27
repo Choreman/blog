@@ -28,6 +28,6 @@ public interface AdminService {
      * @return
      * @throws Exception
      */
-    int updateByPrimaryKey(Admin admin) throws Exception;
+    int updateByPrimaryKeySelective(Admin admin) throws Exception;
 
 }

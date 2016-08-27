@@ -25,7 +25,7 @@ public class AdminServiceImpl implements AdminService {
         return admin;
     }
 
-    public int updateByPrimaryKey(Admin admin) throws Exception {
-        return adminMapper.updateByPrimaryKey(admin);
+    public int updateByPrimaryKeySelective(Admin admin) throws Exception {
+        return adminMapper.updateByPrimaryKeySelective(admin);
     }
 }
