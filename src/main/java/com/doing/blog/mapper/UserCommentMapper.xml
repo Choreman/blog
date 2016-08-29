@@ -20,6 +20,26 @@
     -->
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
+
+  <!-- 查询用户评论关联查询用户的resultMap -->
+  <resultMap id="UsercommentUser" type="com.doing.blog.model.UserComment" extends="ResultMapWithBLOBs">
+    <!-- 配置映射的用户评论 -->
+    <!-- 直接继承ResultMapWithBLOBs，可以得到用户评论的映射配置 -->
+
+    <!-- 配置映射的用户信息 -->
+    <association property="user" javaType="com.doing.blog.model.User">
+      <id column="user_id" property="uId"/>
+      <result column="login_name" property="loginName" />
+      <result column="username" property="username" />
+      <result column="password" property="password" />
+      <result column="sex" property="sex" />
+      <result column="birthday" property="birthday" />
+      <result column="phone" property="phone" />
+      <result column="create_date" property="createDate" />
+      <result column="head_portrait" property="headPortrait"/>
+    </association>
+  </resultMap>
+
   <sql id="Example_Where_Clause" >
     <!--
       WARNING - @mbggenerated
@@ -348,4 +368,21 @@
       article_id = #{articleId,jdbcType=BIGINT}
     where ucomment_id = #{ucommentId,jdbcType=BIGINT}
   </update>
+
+  <!-- 根据博客文章id来查询该文章的所有用户评论关联查询用户 -->
+  <select id="selectUsercommentUserByArticleId" parameterType="java.lang.Long" resultMap="UsercommentUser">
+    select user_comment.*,
+          blog_user.u_id,
+          blog_user.login_name,
+          blog_user.username,
+          blog_user.password,
+          blog_user.sex,
+          blog_user.birthday,
+          blog_user.phone,
+          blog_user.create_date,
+          blog_user.head_portrait
+		FROM user_comment
+			LEFT JOIN blog_user on blog_user.u_id = user_comment.user_id
+		WHERE user_comment.article_id = #{articleId}
+  </select>
 </mapper>

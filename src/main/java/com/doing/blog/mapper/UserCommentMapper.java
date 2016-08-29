@@ -117,4 +117,11 @@ public interface UserCommentMapper {
      * @mbggenerated Sun Aug 28 00:31:59 CST 2016
      */
     int updateByPrimaryKey(UserComment record);
+
+    /**
+     * 根据博客文章查询相关的用户评论关联查询用户信息
+     * @param articleId
+     * @return
+     */
+    List<UserComment> selectUsercommentUserByArticleId(Long articleId);
 }

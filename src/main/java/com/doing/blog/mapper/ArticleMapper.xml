@@ -23,7 +23,69 @@
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
 
-  <!-- getPageBean，获取datatable所需的相关分页数据 -->
+  <!-- 根据查询博客文章关联查询管理员的resultMap -->
+  <resultMap id="ArticleAdminResultMap" type="com.doing.blog.model.Article" extends="ResultMapWithBLOBs">
+    <!-- 配置映射的博客文章 -->
+    <!-- 直接继承ResultMapWithBLOBs，可以得到博客文章的映射配置 -->
+
+    <!-- 配置映射关联的管理员信息 -->
+    <!--
+         association：用于映射查询单个对象的信息
+         property：要将关联查询管理员信息映射到Article中
+    -->
+    <association property="admin" javaType="com.doing.blog.model.Admin">
+      <id column="admin_id" property="aId"/>
+      <result column="login_name" property="loginName" />
+      <result column="username" property="username" />
+      <result column="password" property="password" />
+      <result column="sex" property="sex" />
+      <result column="birthday" property="birthday" />
+      <result column="admin_create_date" property="createDate" />
+      <result column="phone" property="phone" />
+      <result column="admin_visits_number" property="visitsNumber" />
+    </association>
+  </resultMap>
+
+  <!-- 查询博客文章关联查询管理员关联查询用户评论关联查询用户的resultMap -->
+  <resultMap id="ArticleAdminUsercommentUser" type="com.doing.blog.model.Article" extends="ArticleAdminResultMap">
+    <!-- 配置映射的博客文章 -->
+    <!-- 配置映射关联的管理员信息 -->
+    <!-- 直接继承ArticleAdminResultMap，可以得到博客文章关联查询管理员的映射配置 -->
+
+    <!--
+        用户评论信息
+        一个博客文章关联查询出了多条用户评论，要使用collection进行映射，即一对多，多的一方要进行collection映射
+        collection：对关联查询到的多条记录映射到集合对象中
+        property：将关联查询到多条记录映射到com.doing.blog.model.Article哪个属性
+        ofType：指定映射到list集合属性中pojo的类型
+    -->
+    <collection property="userCommentList" ofType="com.doing.blog.model.UserComment">
+      <id column="ucomment_id" property="ucommentId"/>
+      <result column="ucomment_id" property="ucommentId"/>
+      <result column="user_comment_content" property="content"/>
+      <result column="create_time" property="createTime"/>
+      <result column="user_id" property="userId"/>
+      <result column="user_comment_article_id" property="articleId"/>
+      
+      <!--
+          用户信息
+          一条用户评论关联查询出了一条用户信息，即一对一
+      -->
+      <association property="user" javaType="com.doing.blog.model.User">
+        <id column="user_id" property="uId"/>
+        <result column="u_id" property="uId"/>
+        <result column="user_login_name" property="loginName"/>
+        <result column="user_username" property="username"/>
+        <result column="user_password" property="username"/>
+        <result column="user_sex" property="sex"/>
+        <result column="user_birthday" property="birthday"/>
+        <result column="user_phone" property="phone"/>
+        <result column="user_create_date" property="createDate"/>
+        <result column="head_portrait" property="headPortrait"/>
+      </association>
+    </collection>
+  </resultMap>
+
   <parameterMap type="java.util.Map" id="getPageBean">
     <parameter property="pageOffset" mode="IN" jdbcType="INTEGER"/>
     <parameter property="size" mode="IN" jdbcType="INTEGER"/>
@@ -395,7 +457,7 @@
     where article_id = #{articleId,jdbcType=BIGINT}
   </update>
 
-  <!-- datatable插件分页所需查询，分别是countAll、selectAllArticle -->
+  <!-- datatable插件分页查询，分别是countAll、selectAllArticle -->
   <select id="countAll" parameterMap="getPageBean" resultType="int">
     SELECT count(*)
       FROM blog_article a
@@ -426,5 +488,52 @@
     limit #{pageOffset},#{size}
   </select>
 
+  <!-- 查询博客文章关联查询管理员，使用resultMap -->
+  <select id="selectAll" resultMap="ArticleAdminResultMap">
+    SELECT blog_article.*,
+        blog_admin.a_id,
+        blog_admin.login_name,
+        blog_admin.username,
+        blog_admin.password,
+        blog_admin.sex,
+        blog_admin.birthday,
+        blog_admin.create_date AS admin_create_date,
+        blog_admin.phone ,
+        blog_admin.visits_number AS admin_visits_number
+	  FROM blog_article, blog_admin
+	  WHERE blog_article.admin_id = blog_admin.a_id
+  </select>
 
+  <!-- 查询指定id的博客文章关联查询管理员关联查询用户评论，使用resultMap -->
+  <select id="selectArticleAdminUsercommentUserById" parameterType="java.lang.Long" resultMap="ArticleAdminUsercommentUser">
+    SELECT blog_article.*,
+        blog_admin.a_id,
+        blog_admin.login_name,
+        blog_admin.username,
+        blog_admin.password,
+        blog_admin.sex,
+        blog_admin.birthday,
+        blog_admin.create_date AS admin_create_date,
+        blog_admin.phone ,
+        blog_admin.visits_number AS admin_visits_number,
+        user_comment.ucomment_id,
+        user_comment.content AS user_comment_content,
+        user_comment.create_time,
+        user_comment.user_id,
+        user_comment.article_id AS user_comment_article_id,
+        blog_user.u_id,
+        blog_user.login_name AS user_login_name,
+        blog_user.username AS user_username,
+        blog_user.password AS user_password,
+        blog_user.sex AS user_sex,
+        blog_user.birthday AS user_birthday,
+        blog_user.phone AS user_phone,
+        blog_user.create_date AS user_create_date,
+        blog_user.head_portrait
+	  FROM blog_article
+          LEFT JOIN blog_admin on blog_article.admin_id = blog_admin.a_id
+          LEFT JOIN user_comment on blog_article.article_id = user_comment.article_id
+          LEFT JOIN blog_user on user_comment.user_id = blog_user.u_id
+	  WHERE blog_article.article_id = #{articleId}
+  </select>
 </mapper>

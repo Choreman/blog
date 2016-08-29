@@ -3,7 +3,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Doing</title>
+    <title>查看博客内容</title>
+
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -73,17 +74,48 @@
     <div class="container">
         <div class="content-text">
             <div class="title">
-                <c:if test="${articleList != null}">
-                    <c:forEach items="${articleList}" var="article">
+                <c:if test="${article != null}">
+                    <div class="some-title">
+                        <h3><a href="${pageContext.request.contextPath}/admin/user/showArticle/${article.articleId}">${article.title}</a></h3>
+                    </div>
+                    <div class="john">
+                        <p><a href="#">${article.admin.username}</a><span><fmt:formatDate value="${article.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span></p>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="tilte-grid">
+                        <p class="Sed"><span>${article.content}</span></p>
+                    </div>
+                    <div class="read">
+                    </div>
+                    <div class="border">
+                        <p>a</p>
+                    </div>
+                </c:if>
+
+                <h2>用户评论</h2>
+                <div class="comments-info">
+                    <form action="" method="post">
+                        <textarea rows="5" cols="40" placeholder="请输入您的评论"></textarea><br>
+                        <div class="ibox-content">
+                            <div class="col-md-6">
+                                <button id="btn" type="button" class="btn btn-block btn-outline btn-primary">发布</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <hr>
+
+                <c:if test="${userCommentList != null}">
+                    <c:forEach items="${userCommentList}" var="userComment">
                         <div class="some-title">
-                            <h3><a href="${pageContext.request.contextPath}/admin/user/articleShow?articleId=${article.articleId}">${article.title}</a></h3>
                         </div>
                         <div class="john">
-                            <p><a href="#">${article.admin.username}</a><span><fmt:formatDate value="${article.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span></p>
+                            <p>${userComment.user.username}<span>
+                            <p><span><fmt:formatDate value="${userComment.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span></p>
                         </div>
                         <div class="clearfix"></div>
                         <div class="tilte-grid">
-                            <p class="Sed"><span>${article.content}</span></p>
+                            <p class="Sed"><span>${userComment.content}</span></p>
                         </div>
                         <div class="read">
                         </div>
@@ -93,52 +125,31 @@
                     </c:forEach>
                 </c:if>
 
+                <br>
+                <div class="border">
+                    <p>a</p>
+                </div>
+
                 <div class="border1">
-                    共<strong>&nbsp;&nbsp;${page.total}&nbsp;&nbsp;</strong>条博客文章&nbsp;&nbsp;&nbsp;
+                    共<strong>&nbsp;&nbsp;${page.total}&nbsp;&nbsp;</strong>条用户评论&nbsp;&nbsp;&nbsp;
                     <c:if test="${page.prePage == 0}">
                         <span>首页</span>&nbsp;&nbsp;
                         <span style="font-size: larger">上一页</span>&nbsp;&nbsp;
                     </c:if>
                     <c:if test="${page.prePage != 0}">
-                        <a href="${pageContext.request.contextPath}/admin/user/index?page=${page.firstPage}">首页</a>&nbsp;&nbsp;
-                        <a href="${pageContext.request.contextPath}/admin/user/index?page=${page.prePage}" style="font-size: larger">上一页</a>&nbsp;&nbsp;
+                        <a href="${pageContext.request.contextPath}/admin/user/articleShow?articleId=${article.articleId}&page=${page.firstPage}">首页</a>&nbsp;&nbsp;
+                        <a href="${pageContext.request.contextPath}/admin/user/articleShow?articleId=${article.articleId}&page=${page.prePage}" style="font-size: larger">上一页</a>&nbsp;&nbsp;
                     </c:if>
                     <c:if test="${page.nextPage == 0}">
                         <span style="font-size: larger">下一页</span>&nbsp;&nbsp;
                         <span>尾页</span>&nbsp;&nbsp;
                     </c:if>
                     <c:if test="${page.nextPage != 0}">
-                        <a href="${pageContext.request.contextPath}/admin/user/index?page=${page.nextPage}" style="font-size: larger">下一页</a>&nbsp;&nbsp;
-                        <a href="${pageContext.request.contextPath}/admin/user/index?page=${page.lastPage}">尾页</a>&nbsp;&nbsp;
+                        <a href="${pageContext.request.contextPath}/admin/user/articleShow?articleId=${article.articleId}&page=${page.nextPage}" style="font-size: larger">下一页</a>&nbsp;&nbsp;
+                        <a href="${pageContext.request.contextPath}/admin/user/articleShow?articleId=${article.articleId}&page=${page.lastPage}">尾页</a>&nbsp;&nbsp;
                     </c:if>
                     第&nbsp;<span style="font-size: large;color: red">${page.pageNum}</span>&nbsp;页
                     共&nbsp;<span style="font-size: large;color: red">${page.pages}</span>&nbsp;页
-                </div>
-            </div>
-            <div class="categories">
-                <div class="categ">
-                    <div class="cat">
-                        <h3>导航栏</h3>
-                        <ul>
-                            <li><a href="">1</a></li>
-                            <li><a href="">2</a></li>
-                            <li><a href="">3</a></li>
-                            <li><a href="">4</a></li>
-                        </ul>
-                    </div>
-                    <div class="recent-com">
-                        <h3>补充导航</h3>
-                        <ul>
-                            <li><a href="">Donec consequat</a></li>
-                            <li><a href="">Aliquam erat ipsum,</a></li>
-                            <li><a href="">Etiam aliquet convallis enim ut
-                                <span>Donec at pretium dui</span></a></li>
-                            <li><a href="">Nulla sed massa sagittis</a></li>
-                        </ul>
-                    </div>
-                    <div class="view">
-                        <a href="">View More</a>
-                    </div>
                 </div>
             </div>
             <div class="clearfix"></div>

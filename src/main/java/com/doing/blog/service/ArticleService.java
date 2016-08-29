@@ -2,6 +2,8 @@ package com.doing.blog.service;
 
 import com.doing.blog.model.Article;
 
+import java.util.List;
+
 public interface ArticleService {
 
     /**
@@ -10,5 +12,18 @@ public interface ArticleService {
      * @throws Exception
      */
     int insertArticle(Article article) throws Exception;
+
+    /**
+     * 查询所有的博客文章
+     * @return
+     * @throws Exception
+     */
+    List<Article> selectAll() throws Exception;
+
+    /**
+     * 查询指定id的博客文章关联查询管理员关联查询用户评论
+     * @return
+     */
+    Article selectArticleAdminUsercommentUserById(Long articleId) throws Exception;
 
 }

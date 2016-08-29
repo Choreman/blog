@@ -3,10 +3,16 @@ package com.doing.blog.controller;
 import com.alibaba.fastjson.JSON;
 import com.doing.blog.been.AjaxResult;
 import com.doing.blog.been.HeadPortraitResult;
+import com.doing.blog.model.Article;
 import com.doing.blog.model.User;
+import com.doing.blog.model.UserComment;
+import com.doing.blog.service.ArticleService;
+import com.doing.blog.service.UserCommentService;
 import com.doing.blog.service.UserService;
 import com.doing.blog.util.CommonDateParseUtil;
 import com.doing.blog.util.HeadPortraitUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
@@ -17,10 +23,8 @@ import org.apache.commons.fileupload.util.Streams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
@@ -32,9 +36,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 
 /**
  * 用户控制器，继承基础的控制器
@@ -45,6 +47,43 @@ public class UserController extends BaseController<User, Long>{
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ArticleService articleService;
+    @Autowired
+    private UserCommentService userCommentService;
+
+    /**
+     * 获取首页数据
+     * @param mv
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping(value="/index", method=RequestMethod.GET)
+    public ModelAndView index(ModelAndView mv, @RequestParam(required=true,defaultValue="1") Integer page,
+                              @RequestParam(required=false,defaultValue="10") Integer pageSize ){
+        PageHelper.startPage(page, pageSize);   //调用分页方法，默认为一页显示10条
+        try {
+            List<Article> articleList = articleService.selectAll();  //查询所有的博客文章
+            System.out.println("articlelist  " + articleList.size());
+            PageInfo<Article> p = new PageInfo<Article>(articleList);   //页面信息
+            System.out.println("2222   " + p.getSize());
+            for(Article article : articleList){
+                String content = article.getContent();
+                if(content.length() > 200){
+                    String str = content.substring(0, 200);
+                    content = str + "...";
+                    article.setContent(content);
+                }
+            }
+            mv.addObject("articleList", articleList);
+            mv.addObject("page", p);
+            mv.setViewName("index");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mv;
+    }
 
     /**
      * 跳转到用户注册页面
@@ -104,7 +143,7 @@ public class UserController extends BaseController<User, Long>{
             User loginUser = userService.login(user);
             if(loginUser != null){      //如果输入的用户名和密码存在
                 session.setAttribute("loginUser", loginUser);     //把登陆的用户存进session
-                return "index";     //todo
+                return REDIRECT_URL + "index";
             }else{      //如果输入的用户名和密码不存在
                 redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "用户名或者密码错误"));
                 return REDIRECT_URL + "loginUI";        //返回到登陆页重新登陆
@@ -124,7 +163,7 @@ public class UserController extends BaseController<User, Long>{
     @RequestMapping(value="/logout", method=RequestMethod.GET)
     public String logout(HttpSession session){
         session.removeAttribute("loginUser");
-        return "index";     //todo
+        return REDIRECT_URL + "index";
     }
 
     @RequestMapping(value="/show/{uId}")
@@ -191,6 +230,40 @@ public class UserController extends BaseController<User, Long>{
     }
 
     /**
+     * 展示博客文章详细信息包括评论信息
+     * @param mv
+     * @param articleId
+     * @param redirectAttributes
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping("/articleShow")
+    public ModelAndView articleShow(ModelAndView mv, @RequestParam(required = true) Long articleId, RedirectAttributes redirectAttributes,
+                              @RequestParam(required=true,defaultValue="1") Integer page,
+                              @RequestParam(required=false,defaultValue="10") Integer pageSize ){
+        PageHelper.startPage(page, pageSize);
+        try {
+            //要想PageHelper插件能使用，则要分页的数据的查询数据语句必须放在最上面，否则会出错
+            List<UserComment> userCommentList = userCommentService.selectUsercommentUserByArticleId(articleId); //根据博客文章的id查询相关的用户评论
+            Article article = articleService.selectArticleAdminUsercommentUserById(articleId);
+            System.out.println("usercommentlist     " + userCommentList.size());
+            PageInfo<UserComment> p = new PageInfo<UserComment>(userCommentList);
+            System.out.println("111  " + p.getSize());
+            mv.addObject("userCommentList", userCommentList);
+            mv.addObject("page", p);
+            mv.addObject("article", article);
+            mv.setViewName(TEMPLATE_PATH + "articleShow");
+            return mv;
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "查看失败，请重新查看"));
+            mv.setViewName(REDIRECT_URL + "index");
+            return mv;
+        }
+    }
+
+    /**
      * 查询数据库中是否有相同登陆名的记录，用于登陆时的异步查询
      * @param loginName
      * @param response
@@ -229,15 +302,22 @@ public class UserController extends BaseController<User, Long>{
     }
 
     /**
-     * 跳转到测试页面的映射
+     * 跳转到修改头像页面
      * @return
      */
     @RequestMapping("/head_portrait")
-    public String test(){
+    public String headPortrait(){
         return TEMPLATE_PATH + "head_portrait";
     }
 
 
+    /**
+     * 上传头像
+     * @param session
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/headPortraitResult")
     @ResponseBody
     public HeadPortraitResult headPortraitResult(HttpSession session, HttpServletRequest request) throws Exception {

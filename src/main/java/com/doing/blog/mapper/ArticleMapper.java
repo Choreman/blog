@@ -138,5 +138,11 @@ public interface ArticleMapper {
      * 查询所有的博客文章
      * @return
      */
-    public List<Article> selectAllArticle();
+    public List<Article> selectAll();
+
+    /**
+     * 查询指定id的博客文章关联查询管理员关联查询用户评论
+     * @return
+     */
+    public Article selectArticleAdminUsercommentUserById(Long articleId);
 }
