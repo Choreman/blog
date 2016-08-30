@@ -6,6 +6,7 @@ import com.doing.blog.service.UserCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,5 +18,10 @@ public class UserCommentServiceImpl implements UserCommentService{
     public List<UserComment> selectUsercommentUserByArticleId(Long articleId) throws Exception {
         List<UserComment> userCommentList = userCommentMapper.selectUsercommentUserByArticleId(articleId);
         return userCommentList;
+    }
+
+    public int insertUsercomment(UserComment userComment) {
+        userComment.setCreateTime(new Date());  //设置创建时间
+        return userCommentMapper.insert(userComment);
     }
 }

@@ -65,9 +65,7 @@ public class UserController extends BaseController<User, Long>{
         PageHelper.startPage(page, pageSize);   //调用分页方法，默认为一页显示10条
         try {
             List<Article> articleList = articleService.selectAll();  //查询所有的博客文章
-            System.out.println("articlelist  " + articleList.size());
             PageInfo<Article> p = new PageInfo<Article>(articleList);   //页面信息
-            System.out.println("2222   " + p.getSize());
             for(Article article : articleList){
                 String content = article.getContent();
                 if(content.length() > 200){
@@ -247,9 +245,7 @@ public class UserController extends BaseController<User, Long>{
             //要想PageHelper插件能使用，则要分页的数据的查询数据语句必须放在最上面，否则会出错
             List<UserComment> userCommentList = userCommentService.selectUsercommentUserByArticleId(articleId); //根据博客文章的id查询相关的用户评论
             Article article = articleService.selectArticleAdminUsercommentUserById(articleId);
-            System.out.println("usercommentlist     " + userCommentList.size());
             PageInfo<UserComment> p = new PageInfo<UserComment>(userCommentList);
-            System.out.println("111  " + p.getSize());
             mv.addObject("userCommentList", userCommentList);
             mv.addObject("page", p);
             mv.addObject("article", article);
@@ -260,6 +256,35 @@ public class UserController extends BaseController<User, Long>{
             redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "查看失败，请重新查看"));
             mv.setViewName(REDIRECT_URL + "index");
             return mv;
+        }
+    }
+
+    /**
+     * 插入用户评论
+     * @param session
+     * @param content
+     * @param articleId
+     * @return
+     */
+    @RequestMapping("/insertUsercomment")
+    @ResponseBody
+    public AjaxResult insertUsercomment(HttpSession session, String content, Long articleId){
+        try {
+            boolean flag = userService.isLogin(session);    //判断用户是否登陆
+            if(flag){
+                User loginUser = (User) session.getAttribute("loginUser");  //获取session中的loginUser
+                UserComment userComment = new UserComment();
+                userComment.setContent(content);
+                userComment.setArticleId(articleId);
+                userComment.setUserId(loginUser.getuId());  //把loginUser的id设置进去
+                userCommentService.insertUsercomment(userComment);
+                return successResult;   //此处返回了AjaxResult类型数据，不知道前台应如何接受显示，为一个bug
+            }else {
+                return failResult;   //此处返回了AjaxResult类型数据，不知道前台应如何接受显示，为一个bug
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return failResult;   //此处返回了AjaxResult类型数据，不知道前台应如何接受显示，为一个bug
         }
     }
 

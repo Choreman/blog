@@ -41,6 +41,7 @@
                         <value>/admin/user/login</value>
                         <value>/admin/user/index</value>
                         <value>/admin/user/articleShow</value>
+                        <value>/admin/user/insertUsercomment</value>
                     </list>
                 </property>
             </bean>

@@ -33,6 +33,9 @@
     <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
+    <!-- layer弹窗插件 -->
+    <script src="${pageContext.request.contextPath}/resources/lib/layer/layer.js"></script>
+
 </head>
 <body>
 <!-- header -->
@@ -76,7 +79,7 @@
             <div class="title">
                 <c:if test="${article != null}">
                     <div class="some-title">
-                        <h3><a href="${pageContext.request.contextPath}/admin/user/showArticle/${article.articleId}">${article.title}</a></h3>
+                        <h3>${article.title}</h3>
                     </div>
                     <div class="john">
                         <p><a href="#">${article.admin.username}</a><span><fmt:formatDate value="${article.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span></p>
@@ -94,14 +97,12 @@
 
                 <h2>用户评论</h2>
                 <div class="comments-info">
-                    <form action="" method="post">
-                        <textarea rows="5" cols="40" placeholder="请输入您的评论"></textarea><br>
-                        <div class="ibox-content">
-                            <div class="col-md-6">
-                                <button id="btn" type="button" class="btn btn-block btn-outline btn-primary">发布</button>
-                            </div>
+                    <textarea id="content" name="content" rows="5" cols="40" placeholder="请输入您的评论"></textarea><br>
+                    <div class="ibox-content">
+                        <div class="col-md-6">
+                            <button id="btn" type="button" class="btn btn-block btn-outline btn-primary">发布</button>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <hr>
 
@@ -165,5 +166,42 @@
     </div>
 </div>
 <!-- //footer -->
+
+<!-- 发布评论相关js代码 -->
+<script>
+    $(document).ready(function(){
+        $("#btn").click(function(){
+            if(${sessionScope.loginUser != null}){
+                var content = $("#content").val().trim();
+                var articleId = ${article.articleId};
+                if(content != null && content != ""){
+                    $.ajax({
+                        url: "${pageContext.request.contextPath}/admin/user/insertUsercomment",
+                        data:{
+                            content: content,
+                            articleId: articleId
+                        },
+                        success: function(data){
+                            $("#content").val("");
+                            window.location.reload();
+                        },
+                    })
+                }else{
+                    layer.msg("请输入评论内容" );
+                }
+            }else{
+                layer.msg("请先登陆，再进行评论" );
+            }
+
+        })
+    })
+</script>
 </body>
+<c:if test="${result != null}">
+    <script>
+        var success = ${result.success};
+        var msg = '${result.msg}';
+        layer.msg("提示：" + msg);
+    </script>
+</c:if>
 </html>

@@ -2,6 +2,8 @@ package com.doing.blog.service;
 
 import com.doing.blog.model.User;
 
+import javax.servlet.http.HttpSession;
+
 public interface UserService {
 
     /**
@@ -43,5 +45,13 @@ public interface UserService {
      * @throws Exception
      */
     int updateByPrimaryKeySelective(User user) throws Exception;
+
+    /**
+     * 判断用户是否登陆
+     * @param session
+     * @return
+     * @throws Exception
+     */
+    boolean isLogin(HttpSession session) throws Exception;
 
 }

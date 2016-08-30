@@ -369,7 +369,7 @@
     where ucomment_id = #{ucommentId,jdbcType=BIGINT}
   </update>
 
-  <!-- 根据博客文章id来查询该文章的所有用户评论关联查询用户 -->
+  <!-- 根据博客文章id来查询该文章的所有用户评论关联查询用户，并根据创建时间排序，DESC降序排列 -->
   <select id="selectUsercommentUserByArticleId" parameterType="java.lang.Long" resultMap="UsercommentUser">
     select user_comment.*,
           blog_user.u_id,
@@ -384,5 +384,6 @@
 		FROM user_comment
 			LEFT JOIN blog_user on blog_user.u_id = user_comment.user_id
 		WHERE user_comment.article_id = #{articleId}
+		  ORDER BY create_time DESC
   </select>
 </mapper>

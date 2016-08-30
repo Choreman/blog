@@ -236,6 +236,10 @@
                     rangelength: "请输入6到10位数字或字母组合",
                     remote: "用户名已经存在，请重新注册"
                 },
+                username: {
+                    required: "请输入昵称",
+                    minlength: "长度最少为1位"
+                },
                 password: {
                     required: "请输入您的密码",
                     rangelength: "请输入6到10位数字或字母组合",

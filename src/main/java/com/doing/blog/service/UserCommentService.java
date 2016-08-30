@@ -13,4 +13,11 @@ public interface UserCommentService {
      */
     List<UserComment> selectUsercommentUserByArticleId(Long articleId) throws Exception;
 
+    /**
+     * 插入用户评论
+     * @param userComment
+     * @return
+     */
+    int insertUsercomment(UserComment userComment);
+
 }

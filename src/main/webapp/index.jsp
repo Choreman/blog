@@ -115,32 +115,6 @@
                     共&nbsp;<span style="font-size: large;color: red">${page.pages}</span>&nbsp;页
                 </div>
             </div>
-            <div class="categories">
-                <div class="categ">
-                    <div class="cat">
-                        <h3>导航栏</h3>
-                        <ul>
-                            <li><a href="">1</a></li>
-                            <li><a href="">2</a></li>
-                            <li><a href="">3</a></li>
-                            <li><a href="">4</a></li>
-                        </ul>
-                    </div>
-                    <div class="recent-com">
-                        <h3>补充导航</h3>
-                        <ul>
-                            <li><a href="">Donec consequat</a></li>
-                            <li><a href="">Aliquam erat ipsum,</a></li>
-                            <li><a href="">Etiam aliquet convallis enim ut
-                                <span>Donec at pretium dui</span></a></li>
-                            <li><a href="">Nulla sed massa sagittis</a></li>
-                        </ul>
-                    </div>
-                    <div class="view">
-                        <a href="">View More</a>
-                    </div>
-                </div>
-            </div>
             <div class="clearfix"></div>
         </div>
     </div>

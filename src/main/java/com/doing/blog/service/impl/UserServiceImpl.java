@@ -6,6 +6,7 @@ import com.doing.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 @Service
@@ -36,5 +37,14 @@ public class UserServiceImpl implements UserService{
 
     public int updateByPrimaryKeySelective(User user) throws Exception {
         return userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    public boolean isLogin(HttpSession session) throws Exception {
+        User loginUser = (User)session.getAttribute("loginUser");
+        if(loginUser != null){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
