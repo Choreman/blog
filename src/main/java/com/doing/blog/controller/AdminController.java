@@ -4,10 +4,14 @@ import com.doing.blog.been.AjaxResult;
 import com.doing.blog.been.PageBean;
 import com.doing.blog.model.Admin;
 import com.doing.blog.model.Article;
+import com.doing.blog.model.UserComment;
 import com.doing.blog.service.AdminService;
 import com.doing.blog.service.ArticleService;
+import com.doing.blog.service.UserCommentService;
 import com.doing.blog.util.CommonDateParseUtil;
 import com.doing.blog.util.Encrypt;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +37,8 @@ public class AdminController extends BaseController<Admin, Long> {
     private AdminService adminService;
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private UserCommentService userCommentService;
 
     /**
      * 后台管理员页面
@@ -198,6 +204,44 @@ public class AdminController extends BaseController<Admin, Long> {
     @RequestMapping("/showArticle")
     public String showArticle(){
         return TEMPLATE_PATH + "showArticle";
+    }
+
+
+    @RequestMapping(value="/articleShow/{articleId}")
+    public String articleShow(@PathVariable Long articleId, Model model,
+                              @RequestParam(required=true,defaultValue="1") Integer page,
+                              @RequestParam(required=false,defaultValue="10") Integer pageSize ){
+        PageHelper.startPage(page, pageSize);
+        try {
+            //要想PageHelper插件能使用，则要分页的数据的查询数据语句必须放在最上面，否则会出错
+            List<UserComment> userCommentList = userCommentService.selectUsercommentUserByArticleId(articleId); //根据博客文章的id查询相关的用户评论
+            Article article = articleService.selectArticleAdminUsercommentUserById(articleId);
+            PageInfo<UserComment> p = new PageInfo<UserComment>(userCommentList);
+            model.addAttribute("page", p);
+            model.addAttribute("userCommentList", userCommentList);
+            model.addAttribute("article", article);
+            return TEMPLATE_PATH + "articleShow";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return TEMPLATE_PATH + "showArticle";
+        }
+    }
+
+    /**
+     * 删除博客文章
+     * @param articleId
+     * @return
+     */
+    @RequestMapping(value="/deleteArticle/{articleId}")
+    @ResponseBody
+    public AjaxResult deleteArticle(@PathVariable Long articleId){
+        try {
+            articleService.deleteByPrimaryKey(articleId);
+            return successResult;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return failResult;
     }
 
     /**

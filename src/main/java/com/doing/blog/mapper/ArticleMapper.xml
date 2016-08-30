@@ -473,7 +473,7 @@
       </if>
   </select>
   <select id="selectAllArticle" parameterMap="getPageBean" resultMap="BaseResultMap">
-    SELECT *
+    SELECT a.article_id, a.title, a.content, a.create_date, a.visits_number, a.comment_id, a.admin_id
     FROM blog_article a
     <if test="searchText !=null">
       WHERE  a.title LIKE #{searchText}

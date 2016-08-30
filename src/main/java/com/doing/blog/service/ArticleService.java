@@ -26,4 +26,12 @@ public interface ArticleService {
      */
     Article selectArticleAdminUsercommentUserById(Long articleId) throws Exception;
 
+    /**
+     * 删除博客文章
+     * @param articleId
+     * @return
+     * @throws Exception
+     */
+    int deleteByPrimaryKey(Long articleId) throws Exception;
+
 }

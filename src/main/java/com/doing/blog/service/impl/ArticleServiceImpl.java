@@ -29,4 +29,8 @@ public class ArticleServiceImpl implements ArticleService{
         Article article = articleMapper.selectArticleAdminUsercommentUserById(articleId);
         return article;
     }
+
+    public int deleteByPrimaryKey(Long articleId) throws Exception {
+        return articleMapper.deleteByPrimaryKey(articleId);
+    }
 }

@@ -55,10 +55,6 @@
                                 </li>
                                 <li><a href="${pageContext.request.contextPath}/admin/admin/showArticle">查看博文</a>
                                 </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
                             </ul>
                         </li>
 

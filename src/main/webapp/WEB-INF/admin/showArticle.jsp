@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -25,6 +26,9 @@
     <!-- datatable插件的js文件 -->
     <script src="${pageContext.request.contextPath}/resources/lib/DataTables-1.10.12/media/js/jquery.dataTables.min.js"></script>
 
+    <!-- layer弹窗插件 -->
+    <script src="${pageContext.request.contextPath}/resources/lib/layer/layer.js"></script>
+
 </head>
 <body class="top-navigation">
 <div id="wrapper">
@@ -47,13 +51,7 @@
                             <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
                                data-toggle="dropdown"> 用户管理 <span class="caret"></span></a>
                             <ul role="menu" class="dropdown-menu">
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
+                                <li><a href="">用户列表</a>
                                 </li>
                             </ul>
                         </li>
@@ -64,10 +62,6 @@
                                 <li><a href="${pageContext.request.contextPath}/admin/admin/article">发表博客</a>
                                 </li>
                                 <li><a href="${pageContext.request.contextPath}/admin/admin/showArticle">查看博文</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
                                 </li>
                             </ul>
                         </li>
@@ -193,15 +187,13 @@
                             "bSearchable": false,
                             "bSortable": false,
                             "fnRender": function(obj) {
-                                var id=obj.aData.a_id;
-                                var render=  '<a target="_blank"  href="'+id+'"><i class="icon-search"></i>查看</a>';
-                                render += '&nbsp;&nbsp;';
-                                render += '/  ';
-                                render += '<a class="delete-row" href="#" name='+id+'><i class="icon-remove"></i>删除</a>'
+                                var id = obj.aData.articleId;
+                                var render = '<a targer="_blank" href="${pageContext.request.contextPath}/admin/admin/articleShow/' + id + '">查看</a>';
+                                render += '  /  ';
+                                render += '<a targer="_blank" name=' + id + ' class="delete-row" href="#">删除</a>';
                                 return render;
                             }
                         }
-
                     ]
         });
 
@@ -263,18 +255,13 @@
         $('#datatable-editable').on('click', 'a.delete-row', function (e) {
             var id=$(this).attr("name");
             var nRow = $(this).parents('tr')[0];
-            $.post("${pageContext.request.contextPath}/admin/admin/delete/"+id, function(result){
+            $.post("${pageContext.request.contextPath}/admin/admin/deleteArticle/"+id, function(result){
                 if(result.success){
                     oTable.fnDeleteRow( nRow );
-                    $("#msg >p").text("提示:"+result.msg);
-                    $("#msg").removeAttrs("hidden");
+                    layer.msg("提示：" + result.msg);
                 }else{
-                    $("#msg >p").text("提示:"+result.msg);
-                    $("#msg").removeAttrs("hidden");
+                    layer.msg("提示：" + result.msg);
                 }
-                setTimeout(function(){    //设时延迟0.5s执行
-                    $("#msg").attr("hidden","hidden");
-                },5000)
             },"json");
         } );
 
@@ -283,4 +270,11 @@
 </script>
 
 </body>
+<c:if test="${result != null}">
+    <script>
+        var success = ${result.success};
+        var msg = '${result.msg}';
+        layer.msg("提示：" + msg);
+    </script>
+</c:if>
 </html>
