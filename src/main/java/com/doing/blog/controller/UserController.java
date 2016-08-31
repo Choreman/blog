@@ -23,6 +23,7 @@ import org.apache.commons.fileupload.util.Streams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -31,6 +32,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -101,8 +103,12 @@ public class UserController extends BaseController<User, Long>{
      * @return
      */
     @RequestMapping("/insertUser")
-    public String insertUser(User user, String birthday_time, RedirectAttributes redirectAttributes){
+    public String insertUser(@Valid @ModelAttribute("user") User user, BindingResult result, String birthday_time, RedirectAttributes redirectAttributes){
         try {
+            if(result.hasErrors()){
+                redirectAttributes.addFlashAttribute("result", new AjaxResult(false, "填写格式错误"));
+                return REDIRECT_URL + "register";
+            }
             if(birthday_time != null){  //判断从前台传过来的生日是否为空，若为空则不修改
                 //此处意思是，从前台传字符串类型的“生日”过来，在此处进行 String-->Date 类型转换，进行保存进数据库
                 //局限于现在的技术，只能采取如此办法进行保存
