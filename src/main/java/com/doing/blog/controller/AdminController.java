@@ -236,6 +236,8 @@ public class AdminController extends BaseController<Admin, Long> {
     @ResponseBody
     public AjaxResult deleteArticle(@PathVariable Long articleId){
         try {
+            //因为有外键的影响，想要删除博客文章，必须先删除关联文章的用户评论，才可以删除博客文章
+            userCommentService.deleteUsercommentByArticleId(articleId);
             articleService.deleteByPrimaryKey(articleId);
             return successResult;
         } catch (Exception e) {

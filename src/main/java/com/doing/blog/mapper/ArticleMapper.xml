@@ -502,6 +502,7 @@
         blog_admin.visits_number AS admin_visits_number
 	  FROM blog_article, blog_admin
 	  WHERE blog_article.admin_id = blog_admin.a_id
+	    ORDER BY blog_article.create_date DESC
   </select>
 
   <!-- 查询指定id的博客文章关联查询管理员关联查询用户评论，使用resultMap -->

@@ -386,4 +386,10 @@
 		WHERE user_comment.article_id = #{articleId}
 		  ORDER BY create_time DESC
   </select>
+
+  <!-- 根据文章id删除相应的用户评论 -->
+  <delete id="deleteUsercommentByArticleId" parameterType="java.lang.Long" >
+    delete from user_comment
+    where article_id = #{articleId}
+  </delete>
 </mapper>

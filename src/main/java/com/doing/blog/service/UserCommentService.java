@@ -20,4 +20,11 @@ public interface UserCommentService {
      */
     int insertUsercomment(UserComment userComment);
 
+    /**
+     * 根据文章的id删除相应的用户评论
+     * @param articleId
+     * @return
+     */
+    int deleteUsercommentByArticleId(Long articleId);
+
 }

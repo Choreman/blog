@@ -24,4 +24,8 @@ public class UserCommentServiceImpl implements UserCommentService{
         userComment.setCreateTime(new Date());  //设置创建时间
         return userCommentMapper.insert(userComment);
     }
+
+    public int deleteUsercommentByArticleId(Long articleId) {
+        return userCommentMapper.deleteUsercommentByArticleId(articleId);
+    }
 }
