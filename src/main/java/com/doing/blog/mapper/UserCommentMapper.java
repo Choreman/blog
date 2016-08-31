@@ -131,4 +131,11 @@ public interface UserCommentMapper {
      */
     int deleteUsercommentByArticleId(Long articleId);
 
+    /**
+     * 根据用户的id删除相应的用户评论
+     * @param uId
+     * @return
+     */
+    int deleteUsercommentByUserId(Long uId);
+
 }

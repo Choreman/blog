@@ -28,4 +28,8 @@ public class UserCommentServiceImpl implements UserCommentService{
     public int deleteUsercommentByArticleId(Long articleId) {
         return userCommentMapper.deleteUsercommentByArticleId(articleId);
     }
+
+    public int deleteUsercommentByUserId(Long uId) {
+        return userCommentMapper.deleteUsercommentByUserId(uId);
+    }
 }

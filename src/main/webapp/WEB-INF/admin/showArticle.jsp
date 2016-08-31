@@ -45,15 +45,7 @@
                 <div class="navbar-collapse collapse" id="navbar">
                     <ul class="nav navbar-nav">
                         <li class="active">
-                            <a aria-expanded="false" role="button" href="${pageContext.request.contextPath}/index.jsp">返回前台首页</a>
-                        </li>
-                        <li class="dropdown">
-                            <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
-                               data-toggle="dropdown"> 用户管理 <span class="caret"></span></a>
-                            <ul role="menu" class="dropdown-menu">
-                                <li><a href="">用户列表</a>
-                                </li>
-                            </ul>
+                            <a aria-expanded="false" role="button" href="${pageContext.request.contextPath}/admin/user/index">返回前台首页</a>
                         </li>
                         <li class="dropdown">
                             <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"

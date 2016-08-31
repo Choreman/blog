@@ -54,4 +54,12 @@ public interface UserService {
      */
     boolean isLogin(HttpSession session) throws Exception;
 
+    /**
+     * 删除用户
+     * @param uId
+     * @return
+     * @throws Exception
+     */
+    int deleteByPrimaryKey(Long uId) throws Exception;
+
 }

@@ -8,6 +8,7 @@ import com.doing.blog.model.UserComment;
 import com.doing.blog.service.AdminService;
 import com.doing.blog.service.ArticleService;
 import com.doing.blog.service.UserCommentService;
+import com.doing.blog.service.UserService;
 import com.doing.blog.util.CommonDateParseUtil;
 import com.doing.blog.util.Encrypt;
 import com.github.pagehelper.PageHelper;
@@ -39,6 +40,8 @@ public class AdminController extends BaseController<Admin, Long> {
     private ArticleService articleService;
     @Autowired
     private UserCommentService userCommentService;
+    @Autowired
+    private UserService userService;
 
     /**
      * 后台管理员页面
@@ -247,6 +250,25 @@ public class AdminController extends BaseController<Admin, Long> {
     }
 
     /**
+     * 删除用户信息
+     * @param uId
+     * @return
+     */
+    @RequestMapping(value="/deleteUser/{uId}")
+    @ResponseBody
+    public AjaxResult deleteUser(@PathVariable Long uId){
+        try {
+            //因为有外键的影响，想要删除用户，必须先删除关联用户的用户评论，才可以删除用户
+            userCommentService.deleteUsercommentByUserId(uId);
+            userService.deleteByPrimaryKey(uId);
+            return successResult;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return failResult;
+    }
+
+    /**
      * 异步获取dataTable来展示所有博文
      * @param searchText
      * @param sEcho
@@ -257,6 +279,19 @@ public class AdminController extends BaseController<Admin, Long> {
     @ResponseBody
     public Map dataTable(String searchText, int sEcho, PageBean pageBean) {
         return adminService.dataTable(searchText, sEcho, pageBean);
+    }
+
+    /**
+     * 异步获取dataTable来展示所有用户
+     * @param searchText
+     * @param sEcho
+     * @param pageBean
+     * @return
+     */
+    @RequestMapping("/dataTableUser")
+    @ResponseBody
+    public Map dataTableUser(String searchText, int sEcho, PageBean pageBean){
+        return adminService.dataTableUser(searchText, sEcho, pageBean);
     }
 
 

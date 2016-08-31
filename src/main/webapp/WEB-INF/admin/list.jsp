@@ -14,6 +14,9 @@
     <link href="${pageContext.request.contextPath}/resources/admin/css/animate.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/admin/css/style.css?v=2.2.0" rel="stylesheet">
 
+    <!-- datatable插件的css文件 -->
+    <link href="${pageContext.request.contextPath}/resources/lib/DataTables-1.10.12/media/css/jquery.dataTables.min.css" rel="stylesheet">
+
 </head>
 <body class="top-navigation">
 
@@ -32,20 +35,6 @@
                     <ul class="nav navbar-nav">
                         <li class="active">
                             <a aria-expanded="false" role="button" href="${pageContext.request.contextPath}/admin/user/index">返回前台首页</a>
-                        </li>
-                        <li class="dropdown">
-                            <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
-                               data-toggle="dropdown"> 用户管理 <span class="caret"></span></a>
-                            <ul role="menu" class="dropdown-menu">
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                            </ul>
                         </li>
                         <li class="dropdown">
                             <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
@@ -74,203 +63,35 @@
         </div>
 
         <div class="wrapper wrapper-content">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <span class="label label-success pull-right">月</span>
-                                <h5>浏览量</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">386,200</h1>
-                                <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i>
-                                </div>
-                                <small>总计浏览量</small>
-                            </div>
+            <!-- DataTables Example -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="widget-container fluid-height clearfix">
+                        <div class="heading">
+                            <h2>用户管理</h2>
+                        </div>
+                        <div class="widget-content padded clearfix">
+                            <table class="table table-bordered table-striped" id="datatable-editable">
+                                <thead>
+                                <th width="150px">登陆账号</th>
+                                <th width="150px">昵称</th>
+                                <th width="150px">密码</th>
+                                <th width="100px">性别</th>
+                                <th width="200px">生日</th>
+                                <th width="100px">电话</th>
+                                <th width="200px">创建日期</th>
+                                <th width="150px">功能</th>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <span class="label label-info pull-right">年</span>
-                                <h5>订单</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">80,800</h1>
-                                <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i>
-                                </div>
-                                <small>新订单</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <span class="label label-primary pull-right">今天</span>
-                                <h5>访问人次</h5>
-                            </div>
-                            <div class="ibox-content">
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h1 class="no-margins">&yen; 406,420</h1>
-                                        <div class="font-bold text-navy">44% <i class="fa fa-level-up"></i>
-                                            <small>增长较快</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h1 class="no-margins">206,120</h1>
-                                        <div class="font-bold text-navy">22% <i class="fa fa-level-up"></i>
-                                            <small>增长较慢</small>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>月收入</h5>
-                                <div class="ibox-tools">
-                                    <span class="label label-primary">2015.02 更新</span>
-                                </div>
-                            </div>
-                            <div class="ibox-content no-padding">
-                                <div class="flot-chart m-t-lg" style="height: 55px;">
-                                    <div class="flot-chart-content" id="flot-chart1"></div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-content">
-                                <div>
-                                        <span class="pull-right text-right">
-                                        <small>在过去的一个月销售的平均值：<strong>山东</strong></small>
-                                            <br/>
-                                            所有销售： 162,862
-                                        </span>
-                                    <h3 class="font-bold no-margins">
-                                        半年收入利润率
-                                    </h3>
-                                    <small>市场部</small>
-                                </div>
-
-                                <div class="m-t-sm">
-
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div>
-                                                <canvas id="lineChart" height="114"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <ul class="stat-list m-t-lg">
-                                                <li>
-                                                    <h2 class="no-margins">2,346</h2>
-                                                    <small>总订单</small>
-                                                    <div class="progress progress-mini">
-                                                        <div class="progress-bar" style="width: 48%;"></div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <h2 class="no-margins ">4,422</h2>
-                                                    <small>最近一个月订单</small>
-                                                    <div class="progress progress-mini">
-                                                        <div class="progress-bar" style="width: 60%;"></div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="m-t-md">
-                                    <small class="pull-right">
-                                        <i class="fa fa-clock-o"> </i>
-                                        2015.02.30更新
-                                    </small>
-                                    <small>
-                                        <strong>说明：</strong> 本期销售额比上期增长了23%。
-                                    </small>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>用户行为统计</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-xs-4">
-                                        <small class="stats-label">访问页面 / 浏览量</small>
-                                        <h4>236 321.80</h4>
-                                    </div>
-
-                                    <div class="col-xs-4">
-                                        <small class="stats-label">% 新访客</small>
-                                        <h4>46.11%</h4>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <small class="stats-label">最后一周</small>
-                                        <h4>432.021</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-xs-4">
-                                        <small class="stats-label">访问页面 / 浏览量</small>
-                                        <h4>643 321.10</h4>
-                                    </div>
-
-                                    <div class="col-xs-4">
-                                        <small class="stats-label">% 新访客</small>
-                                        <h4>92.43%</h4>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <small class="stats-label">最后一周</small>
-                                        <h4>564.554</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-xs-4">
-                                        <small class="stats-label">访问页面 / 浏览量</small>
-                                        <h4>436 547.20</h4>
-                                    </div>
-
-                                    <div class="col-xs-4">
-                                        <small class="stats-label">% 新访客</small>
-                                        <h4>150.23%</h4>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <small class="stats-label">最后一周</small>
-                                        <h4>124.990</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
-
+            <!-- end DataTables Example -->
         </div>
+
         <div class="footer">
             <div class="pull-right">
                 By：Doing's blog
@@ -289,124 +110,161 @@
 <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="${pageContext.request.contextPath}/resources/admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-<!-- Custom and plugin javascript -->
-<script src="${pageContext.request.contextPath}/resources/admin/js/hplus.js?v=2.2.0"></script>
-<script src="${pageContext.request.contextPath}/resources/admin/js/plugins/pace/pace.min.js"></script>
-
-<!-- Flot -->
-<script src="${pageContext.request.contextPath}/resources/admin/js/plugins/flot/jquery.flot.js"></script>
-<script src="${pageContext.request.contextPath}/resources/admin/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/admin/js/plugins/flot/jquery.flot.resize.js"></script>
-
-<!-- ChartJS-->
-<script src="${pageContext.request.contextPath}/resources/admin/js/plugins/chartJs/Chart.min.js"></script>
-
-<!-- Peity -->
-<script src="${pageContext.request.contextPath}/resources/admin/js/plugins/peity/jquery.peity.min.js"></script>
-
-<!-- Peity demo -->
-<script src="${pageContext.request.contextPath}/resources/admin/js/demo/peity-demo.js"></script>
+<!-- datatable插件的js文件 -->
+<script src="${pageContext.request.contextPath}/resources/lib/DataTables-1.10.12/media/js/jquery.dataTables.min.js"></script>
 
 <!-- layer弹窗插件 -->
 <script src="${pageContext.request.contextPath}/resources/lib/layer/layer.js"></script>
 
-
-<script>
-    $(document).ready(function () {
-
-
-        var d1 = [[1262304000000, 6], [1264982400000, 3057], [1267401600000, 20434], [1270080000000, 31982], [1272672000000, 26602], [1275350400000, 27826], [1277942400000, 24302], [1280620800000, 24237], [1283299200000, 21004], [1285891200000, 12144], [1288569600000, 10577], [1291161600000, 10295]];
-        var d2 = [[1262304000000, 5], [1264982400000, 200], [1267401600000, 1605], [1270080000000, 6129], [1272672000000, 11643], [1275350400000, 19055], [1277942400000, 30062], [1280620800000, 39197], [1283299200000, 37000], [1285891200000, 27000], [1288569600000, 21000], [1291161600000, 17000]];
-
-        var data1 = [
-            {
-                label: "数据1",
-                data: d1,
-                color: '#17a084'
+<!-- datatable插件相关的js代码 -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#admin_page").addClass("current");
+        var oTable= $("#datatable-editable").dataTable({
+            "bProcessing": true, // 是否显示取数据时的那个等待提示
+            "bServerSide": true,//这个用来指明是通过服务端来取数据
+            "sPaginationType": "full_numbers", //分页风格，full_number会把所有页码显示出来（大概是，自己尝试）
+            "iDisplayLength": 10,//每页显示10条数据
+            "sAjaxSource": "${pageContext.request.contextPath}/admin/admin/dataTableUser",//这个是请求的地址
+            "fnServerData": retrieveData ,
+            "oLanguage" : { // 汉化
+                "sProcessing" : "正在加载数据...",
+                "sLengthMenu" : "显示_MENU_条 ",
+                "sZeroRecords" : "没有您要搜索的内容",
+                "sInfo" : "从_START_ 到 _END_ 条记录——总记录数为 _TOTAL_ 条",
+                "sInfoEmpty" : "记录数为0",
+                "sInfoFiltered" : "(全部记录数 _MAX_  条)",
+                "sInfoPostFix" : "",
+                "sSearch" : "搜索",
+                "sUrl" : "",
+                "oPaginate" : {
+                    "sFirst" : "第一页",
+                    "sPrevious" : " 上一页 ",
+                    "sNext" : " 下一页 ",
+                    "sLast" : " 最后一页 "
+                }
             },
-            {
-                label: "数据2",
-                data: d2,
-                color: '#127e68'
-            }
-        ];
-        $.plot($("#flot-chart1"), data1, {
-            xaxis: {
-                tickDecimals: 0
-            },
-            series: {
-                lines: {
-                    show: true,
-                    fill: true,
-                    fillColor: {
-                        colors: [{
-                            opacity: 1
-                        }, {
-                            opacity: 1
-                        }]
-                    },
-                },
-                points: {
-                    width: 0.1,
-                    show: false
-                },
-            },
-            grid: {
-                show: false,
-                borderWidth: 0
-            },
-            legend: {
-                show: false,
-            }
+            "aoColumns":
+                    [
+                        { "mData": "loginName", 'sClass':'center'},
+                        { "mData": "username", 'sClass':'center'},
+                        { "mData": "password", 'sClass':'center'},
+                        { "mData": "sex", 'sClass':'center'},
+                        {
+                            "mDataProp": "birthday",
+                            "bSortable": true,
+                            "fnRender": function(obj) {
+                                var datetime = new Date();
+                                datetime.setTime(obj.aData.birthday);
+                                var year = datetime.getFullYear();
+                                var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+                                var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+                                var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();
+                                var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+                                var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+                                return year + "-" + month + "-" + date +" "+hour+":"+minute+":"+second;
+                            }
+                        },
+                        { "mData": "phone", 'sClass':'center'},
+                        {
+                            "mDataProp": "createDate",
+                            "bSortable": true,
+                            "fnRender": function(obj) {
+                                var datetime = new Date();
+                                datetime.setTime(obj.aData.createDate);
+                                var year = datetime.getFullYear();
+                                var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+                                var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+                                var hour = datetime.getHours()< 10 ? "0" + datetime.getHours() : datetime.getHours();
+                                var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+                                var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+                                return year + "-" + month + "-" + date +" "+hour+":"+minute+":"+second;
+                            }
+                        },
+                        {
+                            "mDataProp": "uId",
+                            "bSearchable": false,
+                            "bSortable": false,
+                            "fnRender": function(obj) {
+                                var id = obj.aData.uId;
+                                var render = '<a targer="_blank" name=' + id + ' class="delete-row" href="#">删除</a>';
+                                return render;
+                            }
+                        }
+                    ]
         });
 
-        var lineData = {
-            labels: ["一月", "二月", "三月", "四月", "五月", "六月", "七月"],
-            datasets: [
-                {
-                    label: "示例数据",
-                    fillColor: "rgba(220,220,220,0.5)",
-                    strokeColor: "rgba(220,220,220,1)",
-                    pointColor: "rgba(220,220,220,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: [65, 59, 40, 51, 36, 25, 40]
-                },
-                {
-                    label: "示例数据",
-                    fillColor: "rgba(26,179,148,0.5)",
-                    strokeColor: "rgba(26,179,148,0.7)",
-                    pointColor: "rgba(26,179,148,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(26,179,148,1)",
-                    data: [48, 48, 60, 39, 56, 37, 30]
+// 3个参数的名字可以随便命名,但必须是3个参数,少一个都不行
+        function retrieveData( sSource111,aoData111, fnCallback111) {
+            var arrayObj=new Array(
+                    { "mData": "login_name", 'sClass':'center'},
+                    { "mData": "username", 'sClass':'center'},
+                    { "mData": "password", 'sClass':'center'},
+                    { "mData": "sex", 'sClass':'center'},
+                    { "mData": "birthday", 'sClass':'center'},
+                    { "mData": "phone", 'sClass':'center'},
+                    { "mData": "create_date", 'sClass':'center'}
+            );
+            var searchtext="";
+            var sort="";
+            var order="";
+            var pageOffset=0;
+            var size=10;
+            var sEcho=0;
+            for(var i=0;i<aoData111.length;i++){
+                var value=aoData111[i].value;
+                if(aoData111[i].name=="iSortCol_0"){
+                    sort=arrayObj[value].mData;
                 }
-            ]
-        };
+                if(aoData111[i].name=="sSortDir_0"){
+                    order=value;
+                }
+                if(aoData111[i].name=="sSearch"){
+                    searchtext=value;
+                }
+                if(aoData111[i].name=="iDisplayStart"){
+                    pageOffset=value
+                }
+                if(aoData111[i].name=="iDisplayLength"){
+                    size=value
+                }
+                if(aoData111[i].name=="sEcho"){
+                    sEcho=value;
+                }
 
-        var lineOptions = {
-            scaleShowGridLines: true,
-            scaleGridLineColor: "rgba(0,0,0,.05)",
-            scaleGridLineWidth: 1,
-            bezierCurve: true,
-            bezierCurveTension: 0.4,
-            pointDot: true,
-            pointDotRadius: 4,
-            pointDotStrokeWidth: 1,
-            pointHitDetectionRadius: 20,
-            datasetStroke: true,
-            datasetStrokeWidth: 2,
-            datasetFill: true,
-            responsive: true,
-        };
+            }
+            var page=Math.floor(pageOffset/size)+1;
+            $.ajax({
+                url : sSource111,//这个就是请求地址对应sAjaxSource
+                data :{"sort":sort,"order":order,"pageOffset":pageOffset,"size":size,"searchText":searchtext,"page":page,"sEcho":sEcho},//这个是把datatable的一些基本数据传给后台,比如起始位置,每页显示的行数
+                type : 'post',
+                dataType : 'json',
+                async : false,
+                success : function(result) {
+                    console.info(result)
+                    fnCallback111(result);//把返回的数据传给这个方法就可以了,datatable会自动绑定数据的
+                },
+                error : function(msg) {
+                }
+            });
+        }
+        var nEditing = null;
 
-
-        var ctx = document.getElementById("lineChart").getContext("2d");
-        var myNewChart = new Chart(ctx).Line(lineData, lineOptions);
+        $('#datatable-editable').on('click', 'a.delete-row', function (e) {
+            var id=$(this).attr("name");
+            var nRow = $(this).parents('tr')[0];
+            $.post("${pageContext.request.contextPath}/admin/admin/deleteUser/"+id, function(result){
+                if(result.success){
+                    oTable.fnDeleteRow( nRow );
+                    layer.msg("提示：" + result.msg);
+                }else{
+                    layer.msg("提示：" + result.msg);
+                }
+            },"json");
+        } );
 
     });
+
 </script>
 </body>
 <c:if test="${result != null}">

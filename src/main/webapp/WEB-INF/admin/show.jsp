@@ -47,33 +47,15 @@
                 <div class="navbar-collapse collapse" id="navbar">
                     <ul class="nav navbar-nav">
                         <li class="active">
-                            <a aria-expanded="false" role="button" href="">返回前台首页</a>
-                        </li>
-                        <li class="dropdown">
-                            <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
-                               data-toggle="dropdown"> 用户管理 <span class="caret"></span></a>
-                            <ul role="menu" class="dropdown-menu">
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                            </ul>
+                            <a aria-expanded="false" role="button" href="${pageContext.request.contextPath}/admin/user/index">返回前台首页</a>
                         </li>
                         <li class="dropdown">
                             <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
                                data-toggle="dropdown"> 博文管理 <span class="caret"></span></a>
                             <ul role="menu" class="dropdown-menu">
-                                <li><a href="">菜单列表</a>
+                                <li><a href="${pageContext.request.contextPath}/admin/admin/article">发表博客</a>
                                 </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
+                                <li><a href="${pageContext.request.contextPath}/admin/admin/showArticle">查看博文</a>
                                 </li>
                             </ul>
                         </li>
@@ -81,7 +63,7 @@
                     </ul>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
-                            <span>尊敬的：<a href="${pageContext.request.contextPath}/admin/admin/show/${sessionScope.loginAdmin.aId}">${admin.username}</a></span>
+                            <span>尊敬的：<a href="${pageContext.request.contextPath}/admin/admin/show/${sessionScope.loginAdmin.aId}">${sessionScope.loginAdmin.username}</a></span>
                         </li>
                         <li>
                             <a href="${pageContext.request.contextPath}/admin/admin/logout">
@@ -92,6 +74,7 @@
                 </div>
             </nav>
         </div>
+
         <div class="wrapper wrapper-content">
             <div class="row animated fadeInRight">
                 <div class="col-md-4">
@@ -133,126 +116,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>最新动态</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="profile.html#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="profile.html#">选项1</a>
-                                    </li>
-                                    <li><a href="profile.html#">选项2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="ibox-content">
-
-                            <div>
-                                <div class="feed-activity-list">
-
-                                    <div class="feed-element">
-                                        <a href="profile.html#" class="pull-left">
-                                            <img alt="image" class="img-circle" src="${pageContext.request.contextPath}/resources/admin/img/a1.jpg">
-                                        </a>
-                                        <div class="media-body ">
-                                            <small class="pull-right text-navy">1天前</small>
-                                            <strong>奔波儿灞</strong> 关注了 <strong>灞波儿奔</strong>.
-                                            <br>
-                                            <small class="text-muted">54分钟前 来自 皮皮时光机</small>
-                                            <div class="actions">
-                                                <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> 赞 </a>
-                                                <a class="btn btn-xs btn-danger"><i class="fa fa-heart"></i> 收藏</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="feed-element">
-                                        <a href="profile.html#" class="pull-left">
-                                            <img alt="image" class="img-circle" src="${pageContext.request.contextPath}/resources/admin/img/profile.jpg">
-                                        </a>
-                                        <div class="media-body ">
-                                            <small class="pull-right">5分钟前</small>
-                                            <strong>作家崔成浩</strong> 发布了一篇文章
-                                            <br>
-                                            <small class="text-muted">今天 10:20 来自 iPhone 6 Plus</small>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="feed-element">
-                                        <a href="profile.html#" class="pull-left">
-                                            <img alt="image" class="img-circle" src="${pageContext.request.contextPath}/resources/admin/img/a2.jpg">
-                                        </a>
-                                        <div class="media-body ">
-                                            <small class="pull-right">2小时前</small>
-                                            <strong>作家崔成浩</strong> 抽奖中了20万
-                                            <br>
-                                            <small class="text-muted">今天 09:27 来自 Koryolink iPhone</small>
-                                            <div class="well">
-                                                抽奖，人民币2000元，从转发这个微博的粉丝中抽取一人。11月16日平台开奖。随手一转，万一中了呢？
-                                            </div>
-                                            <div class="pull-right">
-                                                <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> 赞 </a>
-                                                <a class="btn btn-xs btn-white"><i class="fa fa-heart"></i> 收藏</a>
-                                                <a class="btn btn-xs btn-primary"><i class="fa fa-pencil"></i> 评论</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="feed-element">
-                                        <a href="profile.html#" class="pull-left">
-                                            <img alt="image" class="img-circle" src="${pageContext.request.contextPath}/resources/admin/img/a3.jpg">
-                                        </a>
-                                        <div class="media-body ">
-                                            <small class="pull-right">2天前</small>
-                                            <strong>天猫</strong> 上传了2张图片
-                                            <br>
-                                            <small class="text-muted">11月7日 11:56 来自 微博 weibo.com</small>
-                                            <div class="photos">
-                                                <a target="_blank" href="http://24.media.tumblr.com/20a9c501846f50c1271210639987000f/tumblr_n4vje69pJm1st5lhmo1_1280.jpg">
-                                                    <img alt="image" class="feed-photo" src="${pageContext.request.contextPath}/resources/admin/img/p1.jpg">
-                                                </a>
-                                                <a target="_blank" href="http://37.media.tumblr.com/9afe602b3e624aff6681b0b51f5a062b/tumblr_n4ef69szs71st5lhmo1_1280.jpg">
-                                                    <img alt="image" class="feed-photo" src="${pageContext.request.contextPath}/resources/admin/img/p3.jpg">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="feed-element">
-                                        <a href="profile.html#" class="pull-left">
-                                            <img alt="image" class="img-circle" src="${pageContext.request.contextPath}/resources/admin/img/a4.jpg">
-                                        </a>
-                                        <div class="media-body ">
-                                            <small class="pull-right text-navy">5小时前</small>
-                                            <strong>在水一方Y</strong> 关注了 <strong>那二十年的单身</strong>.
-                                            <br>
-                                            <small class="text-muted">今天 10:39 来自 iPhone客户端</small>
-                                            <div class="actions">
-                                                <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> 赞 </a>
-                                                <a class="btn btn-xs btn-white"><i class="fa fa-heart"></i> 收藏</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <button class="btn btn-primary btn-block m"><i class="fa fa-arrow-down"></i> 显示更多</button>
-
-                            </div>
-
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>

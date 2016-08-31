@@ -38,33 +38,15 @@
                     <div class="navbar-collapse collapse" id="navbar">
                         <ul class="nav navbar-nav">
                             <li class="active">
-                                <a aria-expanded="false" role="button" href="">返回前台首页</a>
-                            </li>
-                            <li class="dropdown">
-                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
-                                   data-toggle="dropdown"> 用户管理 <span class="caret"></span></a>
-                                <ul role="menu" class="dropdown-menu">
-                                    <li><a href="">菜单列表</a>
-                                    </li>
-                                    <li><a href="">菜单列表</a>
-                                    </li>
-                                    <li><a href="">菜单列表</a>
-                                    </li>
-                                    <li><a href="">菜单列表</a>
-                                    </li>
-                                </ul>
+                                <a aria-expanded="false" role="button" href="${pageContext.request.contextPath}/admin/user/index">返回前台首页</a>
                             </li>
                             <li class="dropdown">
                                 <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
                                    data-toggle="dropdown"> 博文管理 <span class="caret"></span></a>
                                 <ul role="menu" class="dropdown-menu">
-                                    <li><a href="">菜单列表</a>
+                                    <li><a href="${pageContext.request.contextPath}/admin/admin/article">发表博客</a>
                                     </li>
-                                    <li><a href="">菜单列表</a>
-                                    </li>
-                                    <li><a href="">菜单列表</a>
-                                    </li>
-                                    <li><a href="">菜单列表</a>
+                                    <li><a href="${pageContext.request.contextPath}/admin/admin/showArticle">查看博文</a>
                                     </li>
                                 </ul>
                             </li>
@@ -72,84 +54,7 @@
                         </ul>
                         <ul class="nav navbar-top-links navbar-right">
                             <li>
-                                <span>尊敬的：<a href="${pageContext.request.contextPath}/admin/admin/show/${sessionScope.loginAdmin.aId}">${admin.username}</a></span>
-                            </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="index.html#">
-                                    <i class="fa fa-envelope"></i> <span class="label label-warning">16</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-messages">
-                                    <li>
-                                        <div class="dropdown-messages-box">
-                                            <a href="profile.html" class="pull-left">
-                                                <img alt="image" class="img-circle"
-                                                     src="${pageContext.request.contextPath}/resources/admin/img/a7.jpg">
-                                            </a>
-                                            <div class="media-body">
-                                                <small class="pull-right">46小时前</small>
-                                                <strong>小四</strong> 项目已处理完结
-                                                <br>
-                                                <small class="text-muted">3天前 2014.11.8</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <div class="dropdown-messages-box">
-                                            <a href="profile.html" class="pull-left">
-                                                <img alt="image" class="img-circle"
-                                                     src="${pageContext.request.contextPath}/resources/admin/img/a4.jpg">
-                                            </a>
-                                            <div class="media-body ">
-                                                <small class="pull-right text-navy">25小时前</small>
-                                                <strong>国民岳父</strong> 这是一条测试信息
-                                                <br>
-                                                <small class="text-muted">昨天</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <div class="text-center link-block">
-                                            <a href="mailbox.html">
-                                                <i class="fa fa-envelope"></i> <strong> 查看所有消息</strong>
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="index.html#">
-                                    <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-alerts">
-                                    <li>
-                                        <a href="mailbox.html">
-                                            <div>
-                                                <i class="fa fa-envelope fa-fw"></i> 您有16条未读消息
-                                                <span class="pull-right text-muted small">4分钟前</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <a href="profile.html">
-                                            <div>
-                                                <i class="fa fa-qq fa-fw"></i> 3条新回复
-                                                <span class="pull-right text-muted small">12分钟钱</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <div class="text-center link-block">
-                                            <a href="notifications.html">
-                                                <strong>查看所有 </strong>
-                                                <i class="fa fa-angle-right"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
+                                <span>尊敬的：<a href="${pageContext.request.contextPath}/admin/admin/show/${sessionScope.loginAdmin.aId}">${sessionScope.loginAdmin.username}</a></span>
                             </li>
                             <li>
                                 <a href="${pageContext.request.contextPath}/admin/admin/logout">
@@ -160,6 +65,7 @@
                     </div>
                 </nav>
             </div>
+
             <div class="wrapper wrapper-content">
                 <div class="container">
                     <div class="col-sm-6 col-sm-offset-6">

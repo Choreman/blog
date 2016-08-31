@@ -17,6 +17,15 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="head_portrait" jdbcType="VARCHAR" property="headPortrait" />
   </resultMap>
+
+  <parameterMap type="java.util.Map" id="getPageBean">
+    <parameter property="pageOffset" mode="IN" jdbcType="INTEGER"/>
+    <parameter property="size" mode="IN" jdbcType="INTEGER"/>
+    <parameter property="searchText" mode="IN" jdbcType="VARCHAR"/>
+    <parameter property="sort" mode="IN" jdbcType="VARCHAR"/>
+    <parameter property="order" mode="IN" jdbcType="VARCHAR"/>
+  </parameterMap>
+
   <sql id="Example_Where_Clause">
     <!--
       WARNING - @mbggenerated
@@ -360,5 +369,40 @@
     SELECT <include refid="Base_Column_List"/>
       FROM blog_user
       WHERE login_name = #{loginName} AND password = #{password}
+  </select>
+
+  <!-- datatable插件分页查询，分别是countAll、selectAllUser -->
+  <select id="countAll" parameterMap="getPageBean" resultType="int">
+    SELECT count(*)
+    FROM blog_user a
+    <if test="searchText !=null">
+      WHERE  a.login_name LIKE #{searchText}
+      OR a.username LIKE #{searchText}
+      OR a.password LIKE #{searchText}
+      OR a.sex LIKE #{searchText}
+      OR a.birthday LIKE #{searchText}
+      OR a.phone LIKE #{searchText}
+      OR a.create_date LIKE #{searchText}
+    </if>
+    <if test="sort != null">
+      ORDER BY #{sort} #{order}
+    </if>
+  </select>
+  <select id="selectAllUser" parameterMap="getPageBean" resultMap="BaseResultMap">
+    SELECT a.u_id, a.login_name, a.username, a.password, a.sex, a.birthday, a.phone, a.create_date
+    FROM blog_user a
+    <if test="searchText !=null">
+      WHERE  a.login_name LIKE #{searchText}
+      OR a.username LIKE #{searchText}
+      OR a.password LIKE #{searchText}
+      OR a.sex LIKE #{searchText}
+      OR a.birthday LIKE #{searchText}
+      OR a.phone LIKE #{searchText}
+      OR a.create_date LIKE #{searchText}
+    </if>
+    <if test="sort != null">
+      ORDER BY ${sort} ${order}
+    </if>
+    limit #{pageOffset},#{size}
   </select>
 </mapper>

@@ -67,6 +67,16 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <!-- 错误页 -->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/error/500.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/error/404.jsp</location>
+    </error-page>
+
     <!-- 首页 -->
     <welcome-file-list>
         <welcome-file>toIndex.jsp</welcome-file>

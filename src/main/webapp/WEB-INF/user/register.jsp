@@ -54,39 +54,9 @@
                             class="navbar-toggle collapsed" type="button">
                         <i class="fa fa-reorder"></i>
                     </button>
-                    <a href="${pageContext.request.contextPath}/index.jsp" class="navbar-brand">首页</a>
+                    <a href="${pageContext.request.contextPath}/admin/user/index" class="navbar-brand">首页</a>
                 </div>
                 <div class="navbar-collapse collapse" id="navbar">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
-                               data-toggle="dropdown"> 用户管理 <span class="caret"></span></a>
-                            <ul role="menu" class="dropdown-menu">
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
-                               data-toggle="dropdown"> 博文管理 <span class="caret"></span></a>
-                            <ul role="menu" class="dropdown-menu">
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
                     <ul class="nav navbar-top-links navbar-right">
                         <c:if test="${sessionScope.loginUser == null}">
                             <li><a href="${pageContext.request.contextPath}/admin/user/loginUI"><i class="fa fa-sign-in"></i> 登陆</a></li>

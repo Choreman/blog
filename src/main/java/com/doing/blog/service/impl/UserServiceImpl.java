@@ -47,4 +47,8 @@ public class UserServiceImpl implements UserService{
             return false;
         }
     }
+
+    public int deleteByPrimaryKey(Long uId) throws Exception {
+        return userMapper.deleteByPrimaryKey(uId);
+    }
 }

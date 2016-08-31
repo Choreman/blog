@@ -53,33 +53,15 @@
                 <div class="navbar-collapse collapse" id="navbar">
                     <ul class="nav navbar-nav">
                         <li class="active">
-                            <a aria-expanded="false" role="button" href="">返回前台首页</a>
-                        </li>
-                        <li class="dropdown">
-                            <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
-                               data-toggle="dropdown"> 用户管理 <span class="caret"></span></a>
-                            <ul role="menu" class="dropdown-menu">
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                            </ul>
+                            <a aria-expanded="false" role="button" href="${pageContext.request.contextPath}/admin/user/index">返回前台首页</a>
                         </li>
                         <li class="dropdown">
                             <a aria-expanded="false" role="button" href="#" class="dropdown-toggle"
                                data-toggle="dropdown"> 博文管理 <span class="caret"></span></a>
                             <ul role="menu" class="dropdown-menu">
-                                <li><a href="">菜单列表</a>
+                                <li><a href="${pageContext.request.contextPath}/admin/admin/article">发表博客</a>
                                 </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
-                                </li>
-                                <li><a href="">菜单列表</a>
+                                <li><a href="${pageContext.request.contextPath}/admin/admin/showArticle">查看博文</a>
                                 </li>
                             </ul>
                         </li>
@@ -98,6 +80,7 @@
                 </div>
             </nav>
         </div>
+
         <div class="wrapper wrapper-content">
             <div class="container">
                 <div class="col-sm-6 col-sm-offset-6">
